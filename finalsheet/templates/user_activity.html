@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Activity</title>
+    <style>
+        body{
+            background-color: rgb(189, 228, 241);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .admin-row {
+            background-color: #e0f7fa; /* Light blue background for admin rows */
+        }
+    </style>
+</head>
+<body>
+    <h1>User Activity</h1>
+    
+    <table border="1" cellspacing="0">
+        <tr>
+            <th>User</th>
+            <th>File Downloaded</th>
+            <th>Date</th> <!-- New Date column -->
+            <th>Time</th> <!-- New Time column -->
+        </tr>
+        {% for activity in activities %}
+        <tr class="{% if activity.user.is_superuser %}admin-row{% endif %}">
+            <td>
+                {% if activity.user.is_superuser %}
+                    Admin
+                {% else %}
+                    {{ activity.user.username }}
+                {% endif %}
+            </td>
+            <td>
+                {% if activity.file_downloaded %}
+                    <a href="{% url 'view_downloaded_pdf' activity.id %}">Download</a>
+                {% else %}
+                    No file
+                {% endif %}
+            </td>
+            <td>
+                {{ activity.timestamp|date:"Y-m-d" }} <!-- Display date only -->
+            </td>
+            <td>
+                {{ activity.timestamp|date:"H:i:s" }} <!-- Display time only -->
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

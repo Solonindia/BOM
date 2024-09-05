@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cost Sheet</title>
+    <style>
+        body{
+            border: 4px solid rgba(5, 5, 145, 0.753); /* Thicker border around the page */
+            height: 100%; /* Ensure the body takes the full height of the page */
+            margin: 0;    /* Remove any default margins */
+            padding: 2;   /* Remove any default padding */
+            background-color: rgb(189, 228, 241); /* Ensure background color applies to the whole page */
+            box-sizing: border-box; /* Include the border in the element's total width/height */
+        }
+
+        body button {
+            transform: translateX(-10%); /* Center the button horizontally */
+            background-color: rgb(27, 60, 167);
+            color: white;
+            font-size: medium;
+            border-radius: 5px;
+            padding: 1%;
+        }
+        #submitBtn {
+            margin-left: 50%;
+            padding: 1%;
+        }
+
+        #submitBtn:hover {
+            background-color: rgb(182, 119, 241);
+        }
+
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%; /* Ensures background covers the page even with less content */
+            background-color: rgb(189, 228, 241);
+            background-size: cover;
+            background-position: center;
+            z-index: -1; /* Background stays behind other content */
+        }
+
+        .content-container {
+            position: relative;
+            z-index: 1; /* Content above the background */
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .logo {
+            width: 70px;
+            height: auto;
+        }
+
+        #firstTable,
+        #fourthTable,
+        #thirdTable {
+            margin-left: 30%;
+            margin-right: auto;
+        }
+
+        #secondTable {
+            margin-left: 20%;
+            margin-right: auto;
+        }
+        .home-link {
+            position: fixed;
+            bottom: 20px;
+            left: 10px;
+            font-size: 16px;
+            color: rgb(66, 4, 107);
+
+        }
+        .home-link:hover {
+            text-decoration: underline;
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color:brown;text-align: center;">Cost Sheet for Battery</h1>
+    <div class='background-container'></div>
+    <div class="logo-container">
+        <img src="/static/images/logo.webp" alt="Logo" class="logo">
+    </div>
+    <div class="content-container">
+    <div class="main">
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="button" id="showFirstTable">Technical Specification</button> <br>
+        <br>
+        <div id="firstTable" style="display: none;">
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Max Voltage</td>
+                <td>Volts</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f2" value="{{ previous_data.f2 }}" required></td>
+            </tr>
+            <tr>
+                <td>Minimum Voltage</td>
+                <td>Volts</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f3" value="{{ previous_data.f3 }}" required></td>
+            </tr>
+            <tr>
+                <td>Outer Diameter</td>
+                <td>mm</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f4" value="{{ previous_data.f4 }}" required></td>
+            </tr>
+            <tr>
+                <td>Height to Lid(max)</td>
+                <td>mm</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f5" value="{{ previous_data.f5 }}" required></td>
+            </tr>
+            <tr>
+                <td>Duration</td>
+                <td>sec</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f6" value="{{ previous_data.f6 }}" required></td>
+            </tr>
+            <tr>
+                <td>Maximum Weight</td>
+                <td>gm</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f7" value="{{ previous_data.f7 }}" required></td>
+            </tr>
+            <tr>
+                <td>Discharge Current</td>
+                <td>A</td>
+                <td><input type="text" name="f8" value="{{ previous_data.f8 }}" required></td>
+            </tr>
+            <!-- Add other input fields -->
+        </table>
+    </div>
+    <br>
+    
+    <button type="button" id="showThirdTable">Discharge Profile</button> <br>
+    <br>
+    <div id="thirdTable" style="display: none;">
+    <br>
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>S.NO</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Current</th>
+            </tr>
+            {% for i in upload_range %}
+            <tr>
+                <td>{{ i }}.</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="c{{ i }}" required></td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="t{{ i }}" required></td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="d{{ i }}" required></td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <br>
+
+        <button type="button" id="showFourthTable">No of Stacks</button> <br>
+        <br>
+        <div id="fourthTable" style="display: none; margin-left: 42%;" >
+        <table border="1" cellspacing="0" >
+            <tr>
+            <td>No of stacks</td>
+            <td><input type="text" name="s1" required></td>
+            </tr>
+            <tr>
+                <td>No of Fx layers</td>
+                <td><input type="text" name="s2" required></td>
+            </tr>
+            <tr>
+                <td>Fx thickness</td> 
+                <td><input type="text" name="s3" required></td>
+            </tr>
+            <tr>
+                <td>Observed Capacity at 50c(old)</td>
+                <td><input type="number" name="s14" required></td>
+            </tr>
+        </table>
+        </div>
+        <br>
+        <button type="button" id="showSecondTable">Price Modification Sheet</button> <br>
+        <br>
+        <div id="secondTable" style="display: none;">
+        <table border="1" cellspacing="0">
+            <tr style="background-color:darksalmon;color: rgb(8, 8, 8);">
+                <th> S.No </th>
+                <th class="id"> Item Description </th>
+                <th>Units of Purchase</th>
+                <th>Rate per unit of Purchase</th>
+            </tr>
+            <tr>
+                <td>2.1</td>
+                <td>Lid</td>
+                <td><input type="text" id="u21" name="u21" value="{{ previous_data.u21 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru21" name="ru21" value="{{ previous_data.ru21 }}" required></td>
+            </tr>         
+            <tr>
+                <td>2.2</td>
+                <td>Tie wire</td>
+                <td><input type="text" id="u22" name="u22" value="{{ previous_data.u22 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru22" name="ru22" value="{{ previous_data.ru22 }}" required></td>
+            </tr>
+            <tr>
+                <td>2.3</td>
+                <td>Glass Textolyte Disc(pin isolater)</td>
+                <td><input type="text" id="u23" name="u23" value="{{ previous_data.u23 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru23" name="ru23" value="{{ previous_data.ru23 }}" required></td>
+            </tr>
+            <tr>
+                <td>2.4</td>
+                <td>Pin Connectors</td>
+                <td><input type="text" id="u24" name="u24" value="{{ previous_data.u24 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru24" name="ru24" value="{{ previous_data.ru24 }}" required></td>
+            </tr>
+            <tr>
+                <td>2.5</td>
+                <td>Lead for Anode</td>
+                <td><input type="text" id="u25" name="u25" value="{{ previous_data.u25 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru25" name="ru25" value="{{ previous_data.ru25 }}" required></td>
+            </tr>
+            <tr>
+                <td>2.6</td>
+                <td>Lead for Cathode</td>
+                <td><input type="text" id="u26" name="u26" value="{{ previous_data.u26 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru26" name="ru26" value="{{ previous_data.ru26 }}" required></td>
+            </tr>
+            <tr>
+                <td>3.1</td>
+                <td>Squib Terminals</td>
+                <td><input type="text" id="u31" name="u31" value="{{ previous_data.u31 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru31" name="ru31" value="{{ previous_data.ru31 }}" required></td>
+            </tr>
+            <tr>
+                <td>3.2</td>
+                <td>Squib</td>
+                <td><input type="text" id="u32" name="u32" value="{{ previous_data.u32 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru32" name="ru32" value="{{ previous_data.ru32 }}" required></td>
+            </tr>
+            <tr>
+                <td>3.3</td>
+                <td>FX-70 Disc</td>
+                <td><input type="text" id="u33" name="u33" value="{{ previous_data.u33 }}" data-validation="SFT"></td>
+                <td><input type="text" id="ru33" name="ru33" value="{{ previous_data.ru33 }}" required></td>
+            </tr>
+            <tr>
+                <td>3.4</td>
+                <td>Glass Textolyte Disc-A(Top)</td>
+                <td><input type="text" id="u34" name="u34" value="{{ previous_data.u34 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru34" name="ru34" value="{{ previous_data.ru34 }}" required></td>
+            </tr>
+            <tr>
+                <td>3.5</td>
+                <td>Glass Textolyte Disc-A(Bottom)</td>
+                <td><input type="text" id="u35" name="u35" value="{{ previous_data.u35 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru35" name="ru35" value="{{ previous_data.ru35 }}" required></td>
+            </tr>
+            <tr>
+                <td>3.7</td>
+                <td>Silicon Bonded Mica Disc</td>
+                <td><input type="text" id="u35" name="u37" value="{{ previous_data.u37 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru35" name="ru37" value="{{ previous_data.ru37 }}" required></td>
+            </tr>
+            <tr>
+                <td>4.1</td>
+                <td>Mica Disc</td>
+                <td><input type="text" id="u41" name="u41" value="{{ previous_data.u41 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru41" name="ru41" value="{{ previous_data.ru41 }}" required></td>
+            </tr>
+            <tr>
+                <td>4.3</td>
+                <td>Fiberfrox Disc</td>
+                <td><input type="text" id="u43" name="u43" value="{{ previous_data.u43 }}" data-validation="SFT"></td>
+                <td><input type="text" id="ru43" name="ru43" value="{{ previous_data.ru43 }}" required></td>
+            </tr>
+            <tr>
+                <td>4.4</td>
+                <td>S.S Disc(0.8mm)</td>
+                <td><input type="text" id="u44" name="u44" value="{{ previous_data.u44 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru44" name="ru44" value="{{ previous_data.ru44 }}" required></td>
+            </tr>
+            <tr>
+                <td>5.1</td>
+                <td>Current collectors S.S Disc(0.05mm)-Anode</td>
+                <td><input type="text" id="u51" name="u51" value="{{ previous_data.u51 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru51" name="ru51" value="{{ previous_data.ru51 }}" required></td>
+            </tr>
+            <tr>
+                <td>5.2</td>
+                <td>Current collectors S.S Disc(0.05mm)-Cathode</td>
+                <td><input type="text" id="u52" name="u52" value="{{ previous_data.u52 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru52" name="ru52" value="{{ previous_data.ru52 }}" required></td>
+            </tr>
+            <tr>
+                <td>5.7</td>
+                <td>Current collectors for Anode</td>
+                <td><input type="text" id="u57" name="u57" value="{{ previous_data.u57 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru57" name="ru57" value="{{ previous_data.ru57 }}" required></td>
+            </tr>
+            <tr>
+                <td>5.8</td>
+                <td>Current collectors for Cathode</td>
+                <td><input type="text" id="u58" name="u58" value="{{ previous_data.u58 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru58" name="ru58" value="{{ previous_data.ru58 }}" required></td>
+            </tr>
+            <tr>
+                <td>6.1</td>
+                <td>Mica Disc</td>
+                <td><input type="text" id="u61" name="u61" value="{{ previous_data.u61 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru61" name="ru61" value="{{ previous_data.ru61 }}" required></td>
+            </tr>
+            <tr>
+                <td>6.3</td>
+                <td>Fiberfrox Disc</td>
+                <td><input type="text" id="u63" name="u63" value="{{ previous_data.u63 }}" data-validation="SFT"></td>
+                <td><input type="text" id="ru63" name="ru63" value="{{ previous_data.ru63 }}" required></td>
+            </tr>
+            <tr>
+                <td>6.4</td>
+                <td>S.S Disc(0.8mm)</td>
+                <td><input type="text" id="u64" name="u64" value="{{ previous_data.u64 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru64" name="ru64" value="{{ previous_data.ru64 }}" required></td>
+            </tr>
+            <tr>
+                <td>6.5</td>
+                <td>Brace plate</td>
+                <td><input type="text" id="u65" name="u65" value="{{ previous_data.u65 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru65" name="ru65" value="{{ previous_data.ru65 }}" required></td>
+            </tr>
+            <tr>
+                <td>7.1</td>
+                <td>Stack pyro wicks-02</td>
+                <td><input type="text" id="u71" name="u71" value="{{ previous_data.u71 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru71" name="ru71" value="{{ previous_data.ru71 }}" required></td>
+            </tr>
+            <tr>
+                <td>7.2</td>
+                <td>Flexible Samica strips for Tie wires</td>
+                <td><input type="text" id="u72" name="u72" value="{{ previous_data.u72 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru72" name="ru72" value="{{ previous_data.ru72 }}" required></td>
+            </tr>
+            <tr>
+                <td>7.3</td>
+                <td>Mica strips for Tie wires</td>
+                <td><input type="text" id="u73" name="u73" value="{{ previous_data.u73 }}" data-validation="No's"></td>
+                <td><input type="text" id="u73" name="ru73" value="{{ previous_data.ru73 }}" required></td>
+            </tr>
+            <tr>
+                <td>7.4</td>
+                <td>Mica strips for Leads</td>
+                <td><input type="text" id="u74" name="u74" value="{{ previous_data.u74 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru74" name="ru74" value="{{ previous_data.ru74 }}" required></td>
+            </tr>
+            <tr>
+                <td>8.1</td>
+                <td>Fiberfrox strips Stack Wrap</td>
+                <td><input type="text" id="u81" name="u81" value="{{ previous_data.u81 }}" data-validation="SFT"></td>
+                <td><input type="text" id="ru81" name="ru81" value="{{ previous_data.ru81 }}" required></td>
+            </tr>
+            <tr>
+                <td>8.2</td>
+                <td>Glass cloth Tape</td>
+                <td><input type="text" id="u82" name="u82" value="{{ previous_data.u82 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru82" name="ru82" value="{{ previous_data.ru82 }}" required></td>
+            </tr>
+            <tr>
+                <td>8.3</td>
+                <td>Glass cloth Gum Tape</td>
+                <td><input type="text" id="u83" name="u83" value="{{ previous_data.u83 }}"  data-validation="No's"></td>
+                <td><input type="text" id="ru83" name="ru83" value="{{ previous_data.ru83 }}" required></td>
+            </tr>
+            <tr>
+                <td>8.4</td>
+                <td>Flexible Samica Wrap</td>
+                <td><input type="text" id="u84" name="u84" value="{{ previous_data.u84 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru84" name="ru84" value="{{ previous_data.ru84 }}" required></td>
+            </tr>
+            <tr>
+                <td>9.1</td>
+                <td>Container</td>
+                <td><input type="text" id="u91" name="u91" value="{{ previous_data.u91 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru91" name="ru91" value="{{ previous_data.ru91 }}" required></td>
+            </tr>
+            <tr>
+                <td>9.2</td>
+                <td>Fiberfrox Strip container Insulation</td>
+                <td><input type="text" id="u92" name="u92" value="{{ previous_data.u92 }}" data-validation="SFT"></td>
+                <td><input type="text" id="ru92" name="ru92" value="{{ previous_data.ru92 }}" required></td>
+            </tr>
+            <tr>
+                <td>9.3</td>
+                <td>Silicon Bonded mica disc for Housing</td>
+                <td><input type="text" id="u93" name="u93" value="{{ previous_data.u93 }}" data-validation="gms"></td>
+                <td><input type="text" id="ru93" name="ru93" value="{{ previous_data.ru93 }}" required></td>
+            </tr>
+            <tr>
+                <td>9.4</td>
+                <td>Fiberfrox Disc</td>
+                <td><input type="text" id="u94" name="u94" value="{{ previous_data.u94 }}" data-validation="SFT"></td>
+                <td><input type="text" id="ru94" name="ru94" value="{{ previous_data.ru94 }}" required></td>
+            </tr>
+            <tr>
+                <td>9.5</td>
+                <td>Battery Cap</td>
+                <td><input type="text" id="u95" name="u95" value="{{ previous_data.u95 }}" data-validation="No's"></td>
+                <td><input type="text" id="ru95" name="ru95" value="{{ previous_data.ru95 }}" required></td>
+            </tr>
+            <tr>
+                <td>9.6</td>
+                <td>Argon gas cylinders</td>
+                <td><input type="text" id="u96" name="u96" value="{{ previous_data.u96 }}" data-validation="cum"></td>
+                <td><input type="text" id="ru96" name="ru96" value="{{ previous_data.ru96 }}" required></td>
+            </tr>
+            <tr>
+                <td>9.7</td>
+                <td>Helium gas cylinders</td>
+                <td><input type="text" id="u97" name="u97" value="{{ previous_data.u97 }}" data-validation="cum"></td>
+                <td><input type="text" id="ru97" name="ru97" value="{{ previous_data.ru97 }}" required></td>
+            </tr>
+            <tr  style="background-color: cadetblue;">
+                <td>1</td>
+                <td>Anode pellet</td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>Lisi</td>
+                <td></td>
+                <td><input type="text" id="ru1a" name="ru1a" value="{{ previous_data.ru1a }}" required></td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td>Licl</td>
+                <td></td>
+                <td><input type="text" id="ru1c" name="ru1c" value="{{ previous_data.ru1c }}" required></td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>kcl</td>
+                <td></td>
+                <td><input type="text" id="ru1d" name="ru1d" value="{{ previous_data.ru1d }}" required></td>
+            </tr>
+            <tr>
+                <td>e</td>
+                <td>Mgo</td>
+                <td></td>
+                <td><input type="text" id="ru1e" name="ru1e" value="{{ previous_data.ru1e }}" required></td>
+            </tr>
+            <tr  style="background-color: cadetblue;">
+                <td>2</td>
+                <td>Cathode pellet</td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>Fes2</td>
+                <td></td>
+                <td><input type="text" id="ru2a" name="ru2a" value="{{ previous_data.ru2a }}" required></td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>Li2s</td>
+                <td></td>
+                <td><input type="text" id="ru2b" name="ru2b" value="{{ previous_data.ru2b }}" required></td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>Licl</td>
+                <td></td>
+                <td><input type="text" id="ru2d" name="ru2d" value="{{ previous_data.ru2d }}" required></td>
+            </tr>
+            <tr>
+                <td>e</td>
+                <td>kcl</td>
+                <td></td>
+                <td><input type="text" id="ru2e" name="ru2e" value="{{ previous_data.ru2e }}" required></td>
+            </tr>
+            <tr>
+                <td>f</td>
+                <td>Mgo</td>
+                <td></td>
+                <td><input type="text" id="ru2f" name="ru2f" value="{{ previous_data.ru2f }}" required></td>
+            </tr>
+            <tr  style="background-color: cadetblue;">
+                <td>3</td>
+                <td>Electrolyte</td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>Licl</td>
+                <td></td>
+                <td><input type="text" id="ru3b" name="ru3b" value="{{ previous_data.ru3b }}" required></td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td>kcl</td>
+                <td></td>
+                <td><input type="text" id="ru3c" name="ru3c" value="{{ previous_data.ru3c }}" required></td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>Mgo</td>
+                <td></td>
+                <td><input type="text" id="ru3d" name="ru3d" value="{{ previous_data.ru3d }}" required></td>
+            </tr>
+            <tr  style="background-color: cadetblue;">
+                <td>4</td>
+                <td>Heat pellet</td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>Fe</td>
+                <td></td>
+                <td><input type="text" id="ru4a" name="ru4a" value="{{ previous_data.ru4a }}" required></td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>kclo4</td>
+                <td></td>
+                <td><input type="text" id="ru4b" name="ru4b" value="{{ previous_data.ru4b }}" required></td>
+            </tr>
+        </table>
+        </div>
+        <br><br>
+        <button id="submitBtn" type="submit" style="display: none;">Submit</button>
+    </form>
+    </div>
+</div>
+<a href="{% url 'button_page' %}" class="home-link"><b>Home</b></a>
+    <script>
+    let thirdTableVisible = false;
+       let firstTableVisible = false;
+       let secondTableVisible = false;
+       let fourthTableVisible = false;
+
+       document.getElementById("showThirdTable").addEventListener("click", function() {
+           if (!thirdTableVisible) {
+               document.getElementById("thirdTable").style.display = "block";
+               thirdTableVisible = true;
+           } else {
+               document.getElementById("thirdTable").style.display = "none";
+               thirdTableVisible = false;
+           }
+       });
+
+       
+       document.getElementById("showFirstTable").addEventListener("click", function() {
+           if (!firstTableVisible) {
+               document.getElementById("firstTable").style.display = "block";
+               firstTableVisible = true;
+           } else {
+               document.getElementById("firstTable").style.display = "none";
+               firstTableVisible = false;
+           }
+       });
+
+       document.getElementById("showFourthTable").addEventListener("click", function() {
+           if (!fourthTableVisible) {
+               document.getElementById("fourthTable").style.display = "block";
+               fourthTableVisible = true;
+           } else {
+               document.getElementById("fourthTable").style.display = "none";
+               fourthTableVisible = false;
+           }
+       });
+
+       document.getElementById("showSecondTable").addEventListener("click", function() {
+        let secondTable = document.getElementById("secondTable");
+        let submitBtn = document.getElementById("submitBtn");
+        if (!secondTableVisible) {
+            secondTable.style.display = "block";
+            submitBtn.style.display = "block"; 
+            secondTableVisible = true;
+        } else {
+            secondTable.style.display = "none";
+            submitBtn.style.display = "none"; 
+            secondTableVisible = false;
+        }
+    });
+
+       
+       window.onload = function() {
+           // Function to update output based on input values
+           function updateOutput() {
+               // Get input values from the second table
+               var u21 = document.getElementById("u21").value;
+               var ru21 = document.getElementById("ru21").value;
+               var u22 = document.getElementById("u22").value;
+               var ru22 = document.getElementById("ru22").value;
+               var u23 = document.getElementById("u23").value;
+               var ru23 = document.getElementById("ru23").value;
+               var u24 = document.getElementById("u24").value;
+               var ru24 = document.getElementById("ru24").value;
+               var u25 = document.getElementById("u25").value;
+               var ru25 = document.getElementById("ru25").value;
+               var u26 = document.getElementById("u26").value;
+               var ru26 = document.getElementById("ru26").value;
+               var u31 = document.getElementById("u31").value;
+               var ru31 = document.getElementById("ru31").value;
+               var u32 = document.getElementById("u32").value;
+               var ru32 = document.getElementById("ru32").value;
+               var u33 = document.getElementById("u33").value;
+               var ru33 = document.getElementById("ru33").value;
+               var u34 = document.getElementById("u34").value;
+               var ru34 = document.getElementById("ru34").value;
+               var u35 = document.getElementById("u35").value;
+               var ru35 = document.getElementById("ru35").value;
+               var u37 = document.getElementById("u37").value;
+               var ru37 = document.getElementById("ru37").value;
+               var u41 = document.getElementById("u31").value;
+               var ru41 = document.getElementById("ru31").value;
+               var u43 = document.getElementById("u32").value;
+               var ru43 = document.getElementById("ru32").value;
+               var u44 = document.getElementById("u34").value;
+               var ru44 = document.getElementById("ru34").value;
+               var u51 = document.getElementById("u51").value;
+               var ru51 = document.getElementById("ru51").value;
+               var u52 = document.getElementById("u52").value;
+               var ru52 = document.getElementById("ru52").value;
+               var u57 = document.getElementById("u57").value;
+               var ru57 = document.getElementById("ru57").value;
+               var u58 = document.getElementById("u58").value;
+               var ru58 = document.getElementById("ru58").value;
+               var u61 = document.getElementById("u61").value;
+               var ru61 = document.getElementById("ru61").value;
+               var u63 = document.getElementById("u63").value;
+               var ru63 = document.getElementById("ru63").value;
+               var u64 = document.getElementById("u64").value;
+               var ru64 = document.getElementById("ru64").value;
+               var u65 = document.getElementById("u65").value;
+               var ru65 = document.getElementById("ru65").value;
+               var u71 = document.getElementById("u71").value;
+               var ru71 = document.getElementById("ru71").value;
+               var u72 = document.getElementById("u72").value;
+               var ru72 = document.getElementById("ru72").value;
+               var u73 = document.getElementById("u73").value;
+               var ru73 = document.getElementById("ru73").value;
+               var u74 = document.getElementById("u74").value;
+               var ru74 = document.getElementById("ru74").value;
+               var u81 = document.getElementById("u71").value;
+               var ru81 = document.getElementById("ru71").value;
+               var u82 = document.getElementById("u72").value;
+               var ru82 = document.getElementById("ru72").value;
+               var u83 = document.getElementById("u73").value;
+               var ru83 = document.getElementById("ru73").value;
+               var u84 = document.getElementById("u74").value;
+               var ru84 = document.getElementById("ru74").value;
+               var u91 = document.getElementById("u91").value;
+               var ru91 = document.getElementById("ru91").value;
+               var u92 = document.getElementById("u92").value;
+               var ru92 = document.getElementById("ru92").value;
+               var u93 = document.getElementById("u93").value;
+               var ru93 = document.getElementById("ru93").value;
+               var u94 = document.getElementById("u94").value;
+               var ru94 = document.getElementById("ru94").value;
+               var u95 = document.getElementById("u95").value;
+               var ru95 = document.getElementById("ru95").value;
+               var u96 = document.getElementById("u96").value;
+               var ru96 = document.getElementById("ru96").value;
+               var u97 = document.getElementById("u97").value;
+               var ru97 = document.getElementById("ru97").value;
+
+               var ru1a = document.getElementById("ru1a").value;
+               var ru1c = document.getElementById("ru1c").value;
+               var ru1d = document.getElementById("ru1d").value;
+               var ru1e = document.getElementById("ru1e").value;
+               var ru2a = document.getElementById("ru2a").value;
+               var ru2b = document.getElementById("ru2b").value;
+               var ru2d = document.getElementById("ru2d").value;
+               var ru2e = document.getElementById("ru2e").value;
+               var ru2f = document.getElementById("ru2f").value;
+               var ru3b = document.getElementById("ru3b").value;
+               var ru3c = document.getElementById("ru3c").value;
+               var ru3d = document.getElementById("ru3d").value;
+               var ru4a = document.getElementById("ru4a").value;
+               var ru4b = document.getElementById("ru4b").value;
+               
+               // Add more variables for other input fields as needed
+
+               // Update output values in the result table
+               document.getElementById("output_u21").innerText = u21;
+               document.getElementById("output_ru21").innerText = ru21;
+               document.getElementById("output_u22").innerText = u22;
+               document.getElementById("output_ru22").innerText = ru22;
+               document.getElementById("output_u23").innerText = u23;
+               document.getElementById("output_ru23").innerText = ru23;
+               document.getElementById("output_u24").innerText = u24;
+               document.getElementById("output_ru24").innerText = ru24;
+               document.getElementById("output_u25").innerText = u25;
+               document.getElementById("output_ru25").innerText = ru25;
+               document.getElementById("output_u26").innerText = u26;
+               document.getElementById("output_ru26").innerText = ru26;
+               document.getElementById("output_u31").innerText = u31;
+               document.getElementById("output_ru31").innerText = ru31;
+               document.getElementById("output_u32").innerText = u32;
+               document.getElementById("output_ru32").innerText = ru32;
+               document.getElementById("output_u34").innerText = u34;
+               document.getElementById("output_ru34").innerText = ru34;
+               document.getElementById("output_u35").innerText = u35;
+               document.getElementById("output_ru35").innerText = ru35;
+               document.getElementById("output_u36").innerText = u36;
+               document.getElementById("output_ru36").innerText = ru36;
+               document.getElementById("output_u37").innerText = u37;
+               document.getElementById("output_ru37").innerText = ru37;
+               document.getElementById("output_u41").innerText = u41;
+               document.getElementById("output_ru41").innerText = ru41;
+               document.getElementById("output_u43").innerText = u43;
+               document.getElementById("output_ru43").innerText = ru43;
+               document.getElementById("output_u44").innerText = u44;
+               document.getElementById("output_ru44").innerText = ru44;
+               document.getElementById("output_u51").innerText = u51;
+               document.getElementById("output_ru51").innerText = ru51;
+               document.getElementById("output_u52").innerText = u52;
+               document.getElementById("output_ru52").innerText = ru52;
+               document.getElementById("output_u57").innerText = u57;
+               document.getElementById("output_ru57").innerText = ru57;
+               document.getElementById("output_u58").innerText = u58;
+               document.getElementById("output_ru58").innerText = ru58;
+               document.getElementById("output_u61").innerText = u61;
+               document.getElementById("output_ru61").innerText = ru61;
+               document.getElementById("output_u63").innerText = u63;
+               document.getElementById("output_ru63").innerText = ru63;
+               document.getElementById("output_u64").innerText = u64;
+               document.getElementById("output_ru64").innerText = ru64;
+               document.getElementById("output_u65").innerText = u65;
+               document.getElementById("output_ru65").innerText = ru65;
+               document.getElementById("output_u71").innerText = u71;
+               document.getElementById("output_ru71").innerText = ru71;
+               document.getElementById("output_u72").innerText = u72;
+               document.getElementById("output_ru72").innerText = ru72;
+               document.getElementById("output_u73").innerText = u73;
+               document.getElementById("output_ru73").innerText = ru73;
+               document.getElementById("output_u74").innerText = u74;
+               document.getElementById("output_ru74").innerText = ru74;
+               document.getElementById("output_u81").innerText = u81;
+               document.getElementById("output_ru81").innerText = ru81;
+               document.getElementById("output_u82").innerText = u82;
+               document.getElementById("output_ru82").innerText = ru82;
+               document.getElementById("output_u83").innerText = u83;
+               document.getElementById("output_ru83").innerText = ru83;
+               document.getElementById("output_u84").innerText = u84;
+               document.getElementById("output_ru84").innerText = ru84;
+               document.getElementById("output_u91").innerText = u91;
+               document.getElementById("output_ru91").innerText = ru91;
+               document.getElementById("output_u92").innerText = u92;
+               document.getElementById("output_ru92").innerText = ru92;
+               document.getElementById("output_u93").innerText = u93;
+               document.getElementById("output_ru93").innerText = ru93;
+               document.getElementById("output_u94").innerText = u94;
+               document.getElementById("output_ru94").innerText = ru94;
+               document.getElementById("output_u95").innerText = u95;
+               document.getElementById("output_ru95").innerText = ru95;
+               document.getElementById("output_u96").innerText = u96;
+               document.getElementById("output_ru96").innerText = ru96;
+               document.getElementById("output_u97").innerText = u97;
+               document.getElementById("output_ru97").innerText = ru97;
+
+               // Validate u21 units input
+               if (!isValidUnits(u21)) {
+                    alert("Invalid units entered for Item 2.1. Please enter only numbers.");
+                    document.getElementById("u21").value = ""; // Clear the input field
+                }
+
+               document.getElementById("output_ru1a").innerText = ru1a;
+               document.getElementById("output_ru1c").innerText = ru1c;
+               document.getElementById("output_ru1d").innerText = ru1d;
+               document.getElementById("output_ru1e").innerText = ru1e;
+               document.getElementById("output_ru2a").innerText = ru2a;
+               document.getElementById("output_ru2b").innerText = ru2b;
+               document.getElementById("output_ru2d").innerText = ru2d;
+               document.getElementById("output_ru2e").innerText = ru2e;
+               document.getElementById("output_ru2f").innerText = ru2f;
+               document.getElementById("output_ru3b").innerText = ru3b;
+               document.getElementById("output_ru3c").innerText = ru3c;
+               document.getElementById("output_ru3d").innerText = ru3d;
+               document.getElementById("output_ru4a").innerText = ru4a;
+               document.getElementById("output_ru4b").innerText = ru4b;
+               
+               // Update other output values in the result table as needed
+           }
+           function isValidUnits(units) {
+                // Check if the input consists only of digits
+                return /^\d+$/.test(units);
+            }
+           // Add onchange event listeners to input fields in the second table
+           var inputFields = document.querySelectorAll("#second_table input");
+           for (var i = 0; i < inputFields.length; i++) {
+               inputFields[i].onchange = updateOutput;
+           }
+       }
+       document.addEventListener('DOMContentLoaded', function() {
+    // Function to validate inputs
+    function validateInputs() {
+        const inputs = document.querySelectorAll('input[data-validation]');
+        let isValid = true;
+
+        inputs.forEach(input => {
+            const expectedValue = input.getAttribute('data-validation');
+            const enteredValue = input.value.trim();
+
+            if (enteredValue !== expectedValue) {
+                const label = input.closest('tr').querySelector('td:nth-child(2)').textContent;
+                alert(`Please enter '${expectedValue}' for ${label}`);
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+    // Event listener for form submission
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        if (!validateInputs()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+});
+
+   </script>
+</div>
+    <br>
+
+</body>
+</html>

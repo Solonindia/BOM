@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cost Sheet</title>
+    <style>
+        body{
+            border: 4px solid rgba(5, 5, 145, 0.753); /* Thicker border around the page */
+            height: 100%; /* Ensure the body takes the full height of the page */
+            margin: 0;    /* Remove any default margins */
+            padding: 2;   /* Remove any default padding */
+            background-color: rgb(189, 228, 241); /* Ensure background color applies to the whole page */
+            box-sizing: border-box; /* Include the border in the element's total width/height */
+        }
+
+        body button {
+            transform: translateX(-10%); /* Center the button horizontally */
+            background-color: rgb(27, 60, 167);
+            color: white;
+            font-size: medium;
+            border-radius: 5px;
+            padding: 1%;
+        }
+        #submitBtn {
+            margin-left: 50%;
+            padding: 1%;
+        }
+
+        #submitBtn:hover {
+            background-color: rgb(182, 119, 241);
+        }
+
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%; /* Ensures background covers the page even with less content */
+            background-color: rgb(189, 228, 241);
+            background-size: cover;
+            background-position: center;
+            z-index: -1; /* Background stays behind other content */
+        }
+
+        .content-container {
+            position: relative;
+            z-index: 1; /* Content above the background */
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .logo {
+            width: 70px;
+            height: auto;
+        }
+
+        #firstTable,
+        #fourthTable,
+        #thirdTable {
+            margin-left: 30%;
+            margin-right: auto;
+        }
+
+        #secondTable {
+            margin-left: 20%;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color:brown;text-align: center;">Cost Sheet for Battery</h1>
+    <div class='background-container'></div>
+    <div class="logo-container">
+        <img src="/static/images/logo.webp" alt="Logo" class="logo">
+    </div>
+    <div class="content-container">
+    <div class="main">
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="button" id="showFirstTable">Technical Specification</button> <br>
+        <br>
+        <div id="firstTable" style="display: none;">
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Max Voltage</td>
+                <td>Volts</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f2" value="{{ previous_data.f2 }}" required></td>
+            </tr>
+            <tr>
+                <td>Minimum Voltage</td>
+                <td>Volts</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f3" value="{{ previous_data.f3 }}" required></td>
+            </tr>
+            <tr>
+                <td>Outer Diameter</td>
+                <td>mm</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f4" value="{{ previous_data.f4 }}" required></td>
+            </tr>
+            <tr>
+                <td>Height to Lid(max)</td>
+                <td>mm</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f5" value="{{ previous_data.f5 }}" required></td>
+            </tr>
+            <tr>
+                <td>Duration</td>
+                <td>sec</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f6" value="{{ previous_data.f6 }}" required></td>
+            </tr>
+            <tr>
+                <td>Maximum Weight</td>
+                <td>gm</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="f7" value="{{ previous_data.f7 }}" required></td>
+            </tr>
+            <tr>
+                <td>Discharge Current</td>
+                <td>A</td>
+                <td><input type="text" name="f8" value="{{ previous_data.f8 }}" required></td>
+            </tr>
+            <!-- Add other input fields -->
+        </table>
+    </div>
+    <br>
+    
+    <button type="button" id="showThirdTable">Discharge Profile</button> <br>
+    <br>
+    <div id="thirdTable" style="display: none;">
+    <br>
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>S.NO</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Current</th>
+            </tr>
+            {% for i in upload_range %}
+            <tr>
+                <td>{{ i }}.</td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="c{{ i }}" required></td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="t{{ i }}" required></td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="d{{ i }}" required></td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <br>
+
+        <button type="button" id="showFourthTable">No of Stacks</button> <br>
+        <br>
+        <div id="fourthTable" style="display: none; margin-left: 42%;" >
+        <table border="1" cellspacing="0" >
+            <tr>
+            <td>No of stacks</td>
+            <td><input type="text" name="s1" required></td>
+            </tr>
+            <tr>
+                <td>No of Fx layers</td>
+                <td><input type="text" name="s2" required></td>
+            </tr>
+            <tr>
+                <td>Fx thickness</td> 
+                <td><input type="text" name="s3" required></td>
+            </tr>
+        </table>
+        </div><br><br>
+        <button id="submitBtn" type="submit" style="display: none;">Submit</button>
+        </form>
+        <script>
+            let thirdTableVisible = false;
+               let firstTableVisible = false;
+               let fourthTableVisible = false;
+        
+               document.getElementById("showThirdTable").addEventListener("click", function() {
+                   if (!thirdTableVisible) {
+                       document.getElementById("thirdTable").style.display = "block";
+                       thirdTableVisible = true;
+                   } else {
+                       document.getElementById("thirdTable").style.display = "none";
+                       thirdTableVisible = false;
+                   }
+               });
+        
+               
+               document.getElementById("showFirstTable").addEventListener("click", function() {
+                   if (!firstTableVisible) {
+                       document.getElementById("firstTable").style.display = "block";
+                       firstTableVisible = true;
+                   } else {
+                       document.getElementById("firstTable").style.display = "none";
+                       firstTableVisible = false;
+                   }
+               });
+        
+               document.getElementById("showFourthTable").addEventListener("click", function() {
+                let fourthTable = document.getElementById("fourthTable");
+                let submitBtn = document.getElementById("submitBtn");
+                if (!fourthTableVisible) {
+                    fourthTable.style.display = "block";
+                    submitBtn.style.display = "block"; 
+                    fourthTableVisible = true;
+                } else {
+                    fourthTable.style.display = "none";
+                    submitBtn.style.display = "none"; 
+                    fourthTableVisible = false;
+                }
+            });
+        
+               
+           </script>
+        </div>
+            <br>
+        
+        </body>
+        </html>

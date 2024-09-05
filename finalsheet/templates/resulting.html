@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+       body {
+            position: relative; /* Ensure body is the relative container */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: xx-large;
+            color: brown;
+            text-align: center;
+            margin-top: 80px; /* Adjust to account for the logo */
+        }
+
+        table {
+            width: 100%; /* Make table full-width to adjust with the page */
+            border-collapse: collapse; /* Ensure borders are not doubled */
+            margin: 20px 0; /* Add margin around the table */
+        }
+
+        th, td {
+            border: 1px solid black; /* Add borders to the table cells */
+            padding: 5px; /* Add padding for better readability */
+            text-align: center; /* Center text horizontally */
+        }
+
+        th {
+            background-color: #0033A0;
+            color: azure;
+            padding: 18px; /* Add padding for better readability */
+            font-size: medium;
+        }
+
+        td {
+            height: 50px; /* Set height for table cells */
+            display: flex;
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            padding: 0px; /* Remove extra padding */
+        }
+
+        .eight {
+            white-space: nowrap;
+        }
+
+        /* Adjust column widths with classes */
+        .serial-number {
+            width: 50px; /* Adjust as needed */
+            height: 50px;
+        }
+
+        .description {
+            width: 250px; /* Adjust as needed */
+        }
+
+        .dia, .length, .width, .thickness, .qty, .units, .density, .area, .volume, .weight {
+            width: 100px; /* Adjust as needed for other columns */
+        }
+
+        .rate, .cost {
+            width: 130px;
+        }
+
+        .table-2 th {
+            background-color: rgb(170, 209, 243);
+            font-weight: bold;
+            height:30px;
+            color:black;
+        }
+        .table-2 td {
+            width:130px;
+        }
+    </style>
+</head>
+<body>
+    <h1><b>Cost Sheet</b></h1>
+    <table border="1" cellspacing="0">
+        <tr>
+            <th class="serial-number">S.No</th>
+            <th class="description">Item <br>Description</th>
+            <th class="dia">Dia</th>
+            <th class="length">Length</th>
+            <th class="width">Width</th>
+            <th class="thickness">Thickness</th>
+            <th class="qty">Qty/bty</th>
+            <th class="units">Units of Purchase</th>
+            <th class="density">Density</th>
+            <th class="area">Area</th>
+            <th class="volume">Volume</th>
+            <th class="weight">Weight/ <br>SFT</th>
+            <th class="rate">Rate per unit of Purchase</th>
+            <th class="cost">Cost</th>
+        </tr>
+        <tr>
+            <td><b>1</b></td>
+            <td colspan=2 style="background-color:rgb(170, 209, 243);border-right: none;"><b>LID</b></td>
+        </tr>
+        <tr>
+            <td>1.1</td>
+            <td>Lid Blank</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>1</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>1.2</td>
+            <td>Deliver Pin</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>4</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>1.3</td>
+            <td>Glass to Metal Seal</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><b>2</b></td>
+            <td colspan=2 style="background-color: rgb(170, 209, 243);"><b>LID ASSEMBLY-A</b></td>
+        </tr>
+        <tr>
+            <td>2.1</td>
+            <td>Lid</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>1</td>
+            <td>NO's</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="output_ru21">{{r21}}</td>
+            <td>{{c21}}</td>
+        </tr>
+            <tr>
+                <td>2.2</td>
+                <td>Tie wire</td>
+                <td></td>
+                <td>{{ f5 }}</td>
+                <td>6</td>
+                <td>0.15</td>
+                <td>3</td>
+                <td>gms</td>
+                <td>9</td>
+                <td>{{a22}}</td>
+                <td>{{v22}}</td>
+                <td>{{w22}}</td>
+                <td id="output_ru22">{{r22}}</td>
+                <td>{{c22}}</td>
+            </tr>
+            <tr>
+                <td>2.3</td>
+                <td><h2>Glass Textolyte Disc (Pin Isolater)</h2></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru23">{{r23}}</td>
+                <td>{{c23}}</td>
+            </tr>
+            <tr>
+                <td>2.4</td>
+                <td>Pin Connectors</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>2</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru24">{{r24}}</td>
+                <td>{{c24}}</td>
+            </tr>
+            <tr>
+                <td>2.5</td>
+                <td>Lead for Anode</td>
+                <td></td>
+                <td>{{ f5 }}</td>
+                <td>6</td>
+                <td>0.15</td>
+                <td>3</td>
+                <td>gms</td>
+                <td>9</td>
+                <td>{{a25}}</td>
+                <td>{{v25}}</td>
+                <td>{{w25}}</td>
+                <td id="output_ru25">{{r25}}</td>
+                <td>{{c25}}</td>
+            </tr>
+            <tr>
+                <td>2.6</td>
+                <td>Lead for Cathode</td>
+                <td></td>
+                <td>{{ f5 }}</td>
+                <td>6</td>
+                <td>0.15</td>
+                <td>2</td>
+                <td>gms</td>
+                <td>9</td>
+                <td>{{a26}}</td>
+                <td>{{v26}}</td>
+                <td>{{w26}}</td>
+                <td id="output_ru26">{{r26}}</td>
+                <td>{{c26}}</td>               
+            </tr>
+            <tr>
+                <td><b>3</b></td>
+                <td colspan=2 style="background-color: rgb(170, 209, 243);">SQUIB ASSEMBLY</td></b></td>
+            </tr>
+            <tr>
+                <td>3.1</td>
+                <td>Squib Terminals</td>
+                <td></td>
+                <td>50</td>
+                <td>6</td>
+                <td>0.15</td>
+                <td>2</td>
+                <td>gms</td>
+                <td>9</td>
+                <td>{{a31}}</td>
+                <td>{{v31}}</td>
+                <td>{{w31}}</td>
+                <td id="output_ru31">{{r31}}</td>
+                <td>{{c31}}</td>
+            </tr>
+            <tr>
+                <td>3.2</td>
+                <td>Squib</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru32">{{r32}}</td>
+                <td>{{c32}}</td>
+            </tr>
+            <tr>
+                <td>3.4</td>
+                <td>FX-70 disc</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>1.6</td>
+                <td>3</td>
+                <td>SFT</td>
+                <td></td>
+                <td>{{a34}}</td>
+                <td></td>
+                <td>{{w34}}</td>
+                <td id="output_ru33">{{r33}}</td>
+                <td>{{c33}}</td>
+            </tr>
+            <tr>
+                <td>3.5</td>
+                <td>Glass Textolyte Disc-A(Top)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru34">{{r34}}</td>
+                <td>{{c34}}</td>
+            </tr>
+            <tr>
+                <td>3.6</td>
+                <td>Glass Textolite Disc-A <br>(Bottom)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru35">{{r35}}</td>
+                <td>{{c35}}</td>
+            </tr>
+            <tr>
+                <td>3.7</td>
+                <td>Silicon Bonded Mica Disc</td>
+                <td>{{ cd }}</td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>13</td>
+                <td>NO's</td>
+                <td>2.15</td>
+                <td>{{ a37 }}</td>
+                <td>{{ v37 }}</td>
+                <td>{{ w37 }}</td>
+                <td id="output_ru37">{{r37}}</td>
+                <td>{{c37}}</td>
+            </tr>
+            <tr>
+                <td><b>4</b></td>
+                <td colspan=2 style="background-color:rgb(170, 209, 243);">TOP ASSEMBLY</td></b></td>
+               
+            </tr>
+            <tr>
+                <td>4.1</td>
+                <td>Mica Disc</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru41">{{r41}}</td>
+                <td>{{c41}}</td>
+            </tr>
+            <tr>
+                <td>4.2</td>
+                <td>HEAT PELLET-2</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>{{T6}}</td>
+                <td>6</td>
+                <td>gms</td>
+                <td>4.00</td>
+                <td>{{cA}}</td>
+                <td>{{v42}}</td>
+                <td>{{w42}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4.3</td>
+                <td>Fiberfrox Disc</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>1.6</td>
+                <td>7</td>
+                <td>SFT</td>
+                <td>{{dn43}}</td>
+                <td>{{a43}}</td>
+                <td></td>
+                <td>{{w43}}</td>
+                <td id="output_ru43">{{r43}}</td>
+                <td>{{c43}}</td>
+            </tr>
+            <tr>
+                <td>4.4</td>
+                <td>S.S Disc <br>(0.8mm)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru44">{{r44}}</td>
+                <td>{{c44}}</td>
+            </tr>
+
+            <tr>
+                <td><b>5</b></td>
+                <td colspan=2 style="background-color: rgb(170, 209, 243);border-right: none;"><b>CELL ASSEMBLY</b>
+               
+            </tr>
+            <tr>
+                <td>5.1</td>
+                <td>Current collectors S.S Disc (0.05mm) - Anode</td>
+                <td>{{ad}}</td>
+                <td></td>
+                <td></td>
+                <td>0.05</td>
+                <td>{{v12}}</td>
+                <td>gms</td>
+                <td>8</td>
+                <td>{{cA}}</td>
+                <td>{{v51}}</td>
+                <td>{{w51}}</td>
+                <td id="output_ru51">{{r51}}</td>
+                <td>{{c51}}</td>
+            </tr>
+            <tr>
+                <td>5.2</td>
+                <td>Current collectors S.S Disc <br>(0.05mm) - Cathode</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>0.05</td>
+                <td>{{v12}}</td>
+                <td>gms</td>
+                <td>8</td>
+                <td>{{cA}}</td>
+                <td>{{v51}}</td>
+                <td>{{w51}}</td>
+                <td id="output_ru52">{{r52}}</td>
+                <td>{{c52}}</td>
+            </tr>
+            <tr>
+                <td>5.3</td>
+                <td>Anode pellets</td>
+                <td>{{ad}}</td>
+                <td></td>
+                <td></td>
+                <td>{{T1}}</td>
+                <td>{{v12}}</td>
+                <td>gms</td>
+                <td></td>
+                <td>{{aA}}</td>
+                <td>{{v53}}</td>
+                <td>{{w53}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5.4</td>
+                <td>Cathode pellets</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>{{T3}}</td>
+                <td>{{v12}}</td>
+                <td>gms</td>
+                <td></td>
+                <td>{{cA}}</td>
+                <td>{{v54}}</td>
+                <td>{{w54}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5.5</td>
+                <td>Electrolyte pellets</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>{{T4}}</td>
+                <td>{{v12}}</td>
+                <td>gms</td>
+                <td></td>
+                <td>{{cA}}</td>
+                <td>{{v55}}</td>
+                <td>{{w55}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5.6</td>
+                <td>Heatpellet - 1</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>{{T5}}</td>
+                <td>{{v12}}</td>
+                <td>gms</td>
+                <td></td>
+                <td>{{cA}}</td>
+                <td>{{v56}}</td>
+                <td>{{w56}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5.7</td>
+                <td>Current collectors for Anode</td>
+                <td>{{ cd }}</td>
+                <td></td>
+                <td></td>
+                <td>0.15</td>
+                <td>2</td>
+                <td>gms</td>
+                <td>9</td>
+                <td>{{a57}}</td>
+                <td>{{v57}}</td>
+                <td>{{w57}}</td>
+                <td id="output_ru57">{{r57}}</td>
+                <td>{{c57}}</td>
+            </tr>
+            <tr>
+                <td>5.8</td>
+                <td>Current Collectors for Cathode</td>
+                <td>{{ cd }}</td>
+                <td></td>
+                <td></td>
+                <td>0.15</td>
+                <td>2</td>
+                <td>gms</td>
+                <td>9</td>
+                <td>{{a58}}</td>
+                <td>{{v58}}</td>
+                <td>{{w58}}</td>
+                <td id="output_ru58">{{r58}}</td>
+                <td>{{c58}}</td>
+            </tr>
+            <tr>
+                <td><b>6</b></td>
+                <td colspan=2 style="background-color: rgb(170, 209, 243);"><b>BOTTOM ASSEMBLY</b></td>
+                
+            </tr>
+            <tr>
+                <td>6.1</td>
+                <td>Mica Disc</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>2</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru61">{{r61}}</td>
+                <td>{{c61}}</td>
+            </tr>
+            <tr>
+                <td>6.2</td>
+                <td>HEAT PELLET - 3</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>{{T7}}</td>
+                <td>5</td>
+                <td>gms</td>
+                <td>0.58</td>
+                <td>{{cA}}</td>
+                <td>{{v62}}</td>
+                <td>{{w62}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>6.3</td>
+                <td>Fiberfrox Disc</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>1.6</td>
+                <td>6</td>
+                <td>SFT</td>
+                <td></td>
+                <td>{{a63}}</td>
+                <td></td>
+                <td>{{w63}}</td>
+                <td id="output_ru63">{{r63}}</td>
+                <td>{{c63}}</td>
+            </tr>
+            <tr>
+                <td>6.4</td>
+                <td>S.S Disc(0.8mm)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru64">{{r64}}</td>
+                <td>{{c64}}</td>
+            </tr>
+            <tr>
+                <td>6.5</td>
+                <td>Brace Plate</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru65">{{r65}}</td>
+                <td>{{c65}}</td>
+            </tr>
+
+            <tr>
+                <td><b>7</b></td>
+                <td colspan=2 style="background-color:rgb(170, 209, 243);width:700%">TIE WIRE CRIMPING</td></b></td>
+            </tr>
+            <tr>
+                <td>7.1</td>
+                <td>Stack pyro Wicks-02</td>
+                <td></td>
+                <td>{{ f5 }}</td>
+                <td>6</td>
+                <td>0.15</td>
+                <td>4</td>
+                <td>gms</td>
+                <td>{{dn71}}</td>
+                <td>{{a71}}</td>
+                <td>{{v71}}</td>
+                <td>{{w71}}</td>
+                <td id="output_ru71">{{r71}}</td>
+                <td>{{c71}}</td>
+            </tr>
+            <tr>
+                <td>7.2</td>
+                <td>Flexible Samica Strips for Tie wires</td>
+                <td></td>
+                <td>{{ f5 }}</td>
+                <td>6</td>
+                <td>0.15</td>
+                <td>6</td>
+                <td>gms</td>
+                <td>1.5</td>
+                <td>{{a72}}</td>
+                <td>{{v72}}</td>
+                <td>{{w72}}</td>
+                <td id="output_ru72">{{r72}}</td>
+                <td>{{c72}}</td>
+            </tr>
+            <tr>
+                <td>7.3</td>
+                <td>Mica Strips for Tie wire</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>3</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru73">{{r73}}</td>
+                <td>{{c73}}</td>
+            </tr>
+            <tr>
+                <td>7.4</td>
+                <td>Mica Strips for Leads</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>4</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru74">{{r74}}</td>
+                <td>{{c74}}</td>
+            </tr>
+            <tr>
+                <td><b>8</b></td>
+                <td colspan=2 style="background-color:rgb(170, 209, 243);width:700%">STACK WRAP</td></b></td>
+            </tr>
+            <tr>
+                <td>8.1</td>
+                <td>Fiberfrox strips Stack Wrap</td>
+                <td></td>
+                <td>{{f5}}</td>
+                <td>{{ld}}</td>
+                <td>1.6</td>
+                <td>2</td>
+                <td>SFT</td>
+                <td>{{dn81}}</td>
+                <td>{{a81}}</td>
+                <td></td>
+                <td>{{w81}}</td>
+                <td id="output_ru81">{{r81}}</td>
+                <td>{{c81}}</td>
+            </tr>
+            <tr>
+                <td>8.2</td>
+                <td>Glass Cloth Tape</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru82">{{r82}}</td>
+                <td>{{c82}}</td>
+            </tr>
+            <tr>
+                <td>8.3</td>
+                <td>Glass Cloth Gum Tape</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru83">{{r83}}</td>
+                <td>{{c83}}</td>
+            </tr>
+            <tr>
+                <td>8.4</td>
+                <td>Flexible Samica Wrap</td>
+                <td></td>
+                <td>{{f5}}</td>
+                <td>{{ld}}</td>
+                <td>0.1</td>
+                <td>2</td>
+                <td>gms</td>
+                <td>1.5</td>
+                <td>{{a84}}</td>
+                <td>{{v84}}</td>
+                <td>{{w84}}</td>
+                <td id="output_ru84">{{r84}}</td>
+                <td>{{c84}}</td>
+            </tr>
+
+            <tr>
+                <td><b>9</b></td>
+                <td colspan=2 style="background-color: rgb(170, 209, 243);"><b>CONTAINER ASSEMBLY</b></td>
+               
+            </tr>
+            <tr>
+                <td>9.1</td>
+                <td>Container</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru91">{{r91}}</td>
+                <td>{{c91}}</td>
+            </tr>
+            <tr>
+                <td>9.2</td>
+                <td>Fiberfrox strip Container Insulation</td>
+                <td></td>
+                <td>{{f5}}</td>
+                <td>{{ld}}</td>
+                <td>1.6</td>
+                <td>{{ s4 }}</td>
+                <td>SFT</td>
+                <td></td>
+                <td>{{a92}}</td>
+                <td></td>
+                <td>{{w92}}</td>
+                <td id="output_ru92">{{r92}}</td>
+                <td>{{c92}}</td>
+            </tr>
+            <tr>
+                <td>9.3</td>
+                <td>Silicon Bonded mica disc for Housing</td>
+                <td>{{w1}}</td>
+                <td></td>
+                <td></td>
+                <td>1.0</td>
+                <td>9</td>
+                <td>gms</td>
+                <td>2.15</td>
+                <td>{{a93}}</td>
+                <td>{{v93}}</td>
+                <td>{{w93}}</td>
+                <td id="output_ru93">{{r93}}</td>
+                <td>{{c93}}</td>
+            </tr>
+            <tr>
+                <td>9.4</td>
+                <td>Fiberfrox Disc</td>
+                <td>{{cd}}</td>
+                <td></td>
+                <td></td>
+                <td>1.6</td>
+                <td>8</td>
+                <td>SFT</td>
+                <td></td>
+                <td>{{a94}}</td>
+                <td></td>
+                <td>{{w94}}</td>
+                <td id="output_ru94">{{r94}}</td>
+                <td>{{c94}}</td>
+            </tr>
+            <tr>
+                <td>9.5</td>
+                <td>Battery Cap</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td>NO's</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru95">{{r95}}</td>
+                <td>{{c95}}</td>
+            </tr>
+            <tr>
+                <td>9.6</td>
+                <td>Argon gas cylinders</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>0.2</td>
+                <td>cum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru96">{{r96}}</td>
+                <td>{{c96}}</td>
+            </tr>
+            <tr>
+                <td>9.7</td>
+                <td>Helium gas cylinders</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>0.1</td>
+                <td>cum</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="output_ru97">{{r97}}</td>
+                <td>{{c97}}</td>
+            </tr>
+            <tr style="background-color:#0033A0;text-align: center;color:azure;">
+                <td></td>
+                <td></td>
+                <td><b> Ratio (%)</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+            </tr>
+            <tr style="text-align: center;">
+                <td> <b>1</b></td>
+                <td colspan="2" style="background-color:rgb(170, 209, 243);">Anode Pellet</td>
+               
+                
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>Lisi</td>
+                <td>85</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ lisi }}</td>
+                <td id="output_ru1a">{{ru1a}}</td>
+                <td>{{rc1a}}</td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>EB(80:20)</td>
+                <td>15</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ ebtap }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td>Licl</td>
+                <td>45</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ licl11 }}</td>
+                <td id="output_ru1c">{{ru1c}}</td>
+                <td>{{rc1c}}</td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>KCl</td>
+                <td>55</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ kcl11 }}</td>
+                <td id="output_ru1d">{{ru1d}}</td>
+                <td>{{rc1d}}</td>
+            </tr>
+            <tr>
+                <td>e</td>
+                <td>Mgo</td>
+                <td>20</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ mgo1 }}</td>
+                <td id="output_ru1e">{{ru1e}}</td>
+                <td>{{rc1e}}</td>
+            </tr>
+            <tr>
+                <td> <b>2</b></td>
+                <td colspan="2" style="background-color: rgb(170, 209, 243);">Cathode pellet</td>
+                
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>Fes2</td>
+                <td>73.5</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ fes2 }}</td>
+                <td id="output_ru2a">{{ru2a}}</td>
+                <td>{{rc2a}}</td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>Li2S</td>
+                <td>1.5</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ li2s }}</td>
+                <td id="output_ru2b">{{ru2b}}</td>
+                <td>{{rc2b}}</td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td>EB(80:20)</td>
+                <td>25</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ ebcat  }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>Licl</td>
+                <td>45</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ licl21 }}</td>
+                <td id="output_ru2d">{{ru2d}}</td>
+                <td>{{rc2d}}</td>
+            </tr>
+            <tr>
+                <td>e</td>
+                <td>KCl</td>
+                <td>55</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ kcl21 }}</td>
+                <td id="output_ru2e">{{ru2e}}</td>
+                <td>{{rc2e}}</td>
+            </tr>
+            <tr>
+                <td>f</td>
+                <td>Mgo</td>
+                <td>20</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ mgo2 }}</td>
+                <td id="output_ru2f">{{ru2f}}</td>
+                <td>{{rc2f}}</td>
+            </tr>
+            <tr>
+                <td> <b>3</b></td>
+                <td colspan="2" style="background-color: rgb(170, 209, 243);">Electrolyte</td>
+                
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>EB(60:40)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>Licl</td>
+                <td>45</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ licl31 }}</td>
+                <td id="output_ru3b">{{ru3b}}</td>
+                <td>{{rc3b}}</td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td>KCl</td>
+                <td>55</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ kcl31 }}</td>
+                <td id="output_ru3c">{{ru3c}}</td>
+                <td>{{rc3c}}</td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>Mgo</td>
+                <td>40</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{  mgo3 }}</td>
+                <td id="output_ru3d">{{ru3d}}</td>
+                <td>{{rc3d}}</td>
+            </tr>
+            <tr>
+                <td> <b>4</b></td>
+                <td colspan="2" style="background-color: rgb(170, 209, 243);">Heat pellet</td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>Fe</td>
+                <td>87</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ hpfe }}</td>
+                <td id="output_ru4a">{{ru4a}}</td>
+                <td>{{rc4a}}</td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>Kclo4</td>
+                <td>13</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ hpkclo4 }}</td>
+                <td id="output_ru4b">{{ru4b}}</td>
+                <td>{{rc4b}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="11" style="text-align:left;"><b>Total</b></td>
+                
+                <td colspan="2">{{total_cost}}</td>                   
+            </tr>
+            <tr> 
+                <td  colspan="14" style="background-color: rgb(206, 205, 200);"></td>             
+            </tr>
+        </table><br><br><br><br><br>
+        <table class="table-2" border="1" cellspacing="0">
+        <tr>
+            <th>Phases</th>
+            <th>Total Value</th>
+        </tr>
+        
+        <tr>
+            <td>Phase-1</td>
+            <td><b>{{ p1 }}</b></td>
+        </tr>
+        <tr>
+        <td>Phase-2</td>
+        <td><b>{{ p2 }}</b></td>
+        </tr>
+        <tr>
+        <td>Phase-3</td>
+        <td><b>{{ p3 }}</b></td>
+        </tr>
+        <tr>
+            <td>Phase-5</td>
+            <td><b>{{ p5 }}</b></td>
+        </tr>
+        <tr>
+            <td>Phase-8</td>
+            <td><b>{{ p8 }}</b></td>
+        </tr>
+        <tr>
+            <td><b>Total phase cost</b></td>
+            <td><b>{{ total_p }}</b></td>
+        </tr>   
+    </table>             
+    </body>
+</html>
