@@ -37,11 +37,10 @@ def signup_view(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             login(request, user)
-            return redirect('login')
+            return redirect('admin')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
-
 
 def login_view(request):
     if request.method == 'POST':
@@ -52,14 +51,13 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                # Redirect to a success page.
-                return redirect('user')  # Replace 'add_bom' with your desired page name
+                return redirect('user')  # Redirect to your desired page
             else:
                 # Return an 'invalid login' error message.
-                return render(request, 'login.html', {'form': form, 'error_message': 'Invalid username or password'})
+                return render(request, 'loginu.html', {'form': form, 'error_message': 'Invalid username or password'})
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'loginu.html', {'form': form})
 
 VALID_USERNAME = 'admin'
 VALID_PASSWORD = 'res@123'

@@ -2,7 +2,7 @@ from django.urls import path
 from .import views
 urlpatterns = [
     path('superuser/UserRegister/', views.signup_view, name='signup'),
-    path('login/', views.login_view, name='loginu'),
+    path('user/login/', views.login_view, name='loginu'),
     path('superuser/login/', views.login1_view, name='login'),
     path('BOM/', views.add_bom, name='BOMP'),
     path('BOM1/',views.add_bom1,name='upload1'),
