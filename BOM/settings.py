@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-)6&gglub3t=b82ubf&04t*pl5iky$8ius7m5x@33rzl8-&4p77
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -71,7 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'BOM.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = ['https://battery-bom-bda9awg6gfbcfybm.eastus-01.azurewebsites.net']
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -80,9 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'BOM',
-        'USER': 'root',
-        'PASSWORD':'Krsna@538',
-        'HOST':'localhost',
+        'USER': 'BOMRES',
+        'PASSWORD':'Res$2024',
+        'HOST':'res-bom.mysql.database.azure.com',
         'PORT':'3306',
     }
 }
