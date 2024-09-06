@@ -51,7 +51,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('admin')  # Redirect to your desired page
+                return redirect('user')  # Redirect to your desired page
             else:
                 # Return an 'invalid login' error message.
                 return render(request, 'loginu.html', {'form': form, 'error_message': 'Invalid username or password'})
