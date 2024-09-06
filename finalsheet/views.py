@@ -538,7 +538,7 @@ def add_bom(request):
         response.write(result.read())
         return response
     else:
-        upload_range = range(1, 13)
+        upload_range = range(1, 21)
         return render(request, 'input2.html',{'form1':form1,'previous_data':previous_data,'upload_range': upload_range})
 
 
@@ -578,6 +578,7 @@ def add_bom1(request):
         s1 = int(request.POST['s1'])
         s2 = float(request.POST['s2'])
         s3 = float(request.POST['s3'])
+        s14 = float(request.POST['s14'])
         #print(s1)
         # if form.is_valid():
         #     form_data = form.save()
@@ -620,7 +621,7 @@ def add_bom1(request):
             total_q += q_values[i - 1]  # Add each q value to the total
         total_q = round(total_q,4)
         ct = float(total_q*1.2)
-        v14 = round((ct/280),2)
+        v14 = round((ct/s14),2)
         #print(v14)
 
         #tick1 = round(value,2)
@@ -628,7 +629,6 @@ def add_bom1(request):
         qty1 = s2
         th1 = round((s3*qty1),2)
         w3 = round((th1*2),2)
-
 
         w1 = f4- (s3*2)
         net_dia = round(w1-w3-0.2-0.6-0.4-0.3-0.4,2)
@@ -881,5 +881,5 @@ def add_bom1(request):
         # Return the PDF response to display it in the browser
         return response
     else:
-        upload_range = range(1, 13)
+        upload_range = range(1, 21)
         return render(request, 'input1.html',{'upload_range': upload_range})
