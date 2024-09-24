@@ -10,7 +10,6 @@ from django.contrib import messages
 from datetime import datetime 
 import os
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate,logout
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -104,9 +103,6 @@ def add_bom(request):
         previous_data = TotalCost.objects.latest('id')
     except TotalCost.DoesNotExist:
         previous_data = None  # Handle the case where no previous data exists
-
-    if not request.user.is_authenticated:
-        return redirect(settings.LOGIN_URL)
 
     if request.method == 'POST':
         form = TotalCostForm(request.POST)
@@ -394,11 +390,11 @@ def add_bom(request):
         rc1a,rc1c,rc1d,rc1e,rc2a,rc2b,rc2d,rc2e,rc2f,rc3b,rc3c,rc3d,rc4a,rc4b])
         #total_cost = rc1a+rc1c+rc1d+rc1e+rc2a+rc2b+rc2d+rc2e+rc2f+rc3b+rc3c+rc3d+rc4a+rc4b+c21+c22+c23+c24+c25+c26+c31+c32+c33+c34+c35+c37+c41+c43+c44+c51+c52+c57+c58+c61+c63+c64+c65+c71+c72+c73+c74+c81+c82+c83+c84+c91+c92+c93+c94+c95+c96+c97
 
-        p1 = round(total_cost_sheet * 0.15 * 15,6)
-        p2 = round(total_cost_sheet * 0.15 * 12,6)
-        p3 = round(total_cost_sheet * 0.12 * 10,6)
-        p5 = round(total_cost_sheet * 0.12 * 10,6)
-        p8 = round(total_cost_sheet * 0.12 * 15,6)
+        p1 = round(total_cost_sheet * 1.5 * 15,6)
+        p2 = round(total_cost_sheet * 1.5 * 12,6)
+        p3 = round(total_cost_sheet * 1.2 * 10,6)
+        p5 = round(total_cost_sheet * 1.2 * 10,6)
+        p8 = round(total_cost_sheet * 1.2 * 15,6)
 
         total_p = round(p1+p2+p3+p5+p8,6)
 
@@ -538,8 +534,6 @@ def add_bom(request):
     else:
         upload_range = range(1, 21)
         return render(request, 'input2.html',{'form1':form1,'previous_data':previous_data,'upload_range': upload_range})
-
-
 
 def view_downloaded_pdf(request, activity_id):
     activity = get_object_or_404(UserActivity, id=activity_id)
