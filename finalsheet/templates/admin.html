@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +21,7 @@
         .background-container {
             width: 100%;
             height: 80%;
-            background-image: url('/static/images/bty.jpg');
+            background-image: url("{% static 'bty.jpg' %}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -31,13 +32,13 @@
         }
 
         .logo-container {
-            position: absolute;
-            top: 10px;
+            position: fixed;
+            top: 0;
             left: 20px;
         }
 
         .logo {
-            width: 70px;
+            width: 10px;
             height: auto;
         }
 
@@ -132,10 +133,10 @@
     </style>
 </head>
 <body>
+    <div class="logo-container">
+        <img src="{% static 'logo.webp' %}" alt="Logo">
+    </div>
     <div class="background-container">
-        <div class="logo-container">
-            <img src="/static/images/logo.webp" alt="Logo" class="logo">
-        </div>
         <div class="container" id="dashboardContainer">
             <div class="links-container">
                 <a href="{% url 'signup' %}" class="btn"><b>REGISTER</b></a>

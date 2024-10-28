@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,9 +76,19 @@
         .table-2 td {
             width:130px;
         }
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 70px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
     </style>
 </head>
 <body>
+    <div class="background-container">
+        <img src="{% static 'logo.webp' %}" alt="Logo">
+    </div>
     <h1><b>Cost Sheet</b></h1>
     <table border="1" cellspacing="0">
         <tr>

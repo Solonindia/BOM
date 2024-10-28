@@ -96,13 +96,8 @@ from django.contrib.auth.models import User
 
 class UserActivity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    action = models.CharField(max_length=255,null=True)
-    login_time = models.DateTimeField(null=True, blank=True)
-    logout_time = models.DateTimeField(null=True, blank=True)
-    button_clicked = models.CharField(max_length=255, null=True, blank=True)
     file_downloaded = models.FileField(upload_to='downloads/', null=True, blank=True)
-    file_details = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(null=True, blank=True)
 
-    def str(self):
-        return f"{self.user.username} - {self.action}"
+    def __str__(self):
+        return f"{self.user.username} - {self.timestamp}"

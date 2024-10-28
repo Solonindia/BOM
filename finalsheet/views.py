@@ -97,6 +97,10 @@ def logout_view(request):
     logout(request)
     return redirect('loginu')
 
+import logging
+
+logger = logging.getLogger('finalsheet') 
+
 def add_bom(request):
     form1 = TotalCostForm()
     try:
@@ -482,69 +486,78 @@ def add_bom(request):
         }
         timestamp_str = timezone.now().strftime('%Y%m%d%H%M%S')
         pdf_file_name = f"result_bom_{timestamp_str}.pdf"
-        pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'downloads', pdf_file_name)
-
-        # Ensure the 'downloads' directory exists
-        os.makedirs(os.path.dirname(pdf_file_path), exist_ok=True)
 
         # Render HTML to string
         html = render_to_string('resulting.html', data, request=request)
 
-        # Create a response object with PDF mime type
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'filename="{pdf_file_name}"'
-
         # Use BytesIO to generate the PDF
         result = BytesIO()
+        pisa_status = pisa.CreatePDF(html, dest=result, encoding='utf-8')
 
-        # Generate PDF with landscape orientation (A4 size)
-        pisa_status = pisa.CreatePDF(
-            html,
-            dest=result,
-            encoding='utf-8',
-            default_css="""
-            @page {
-                size: A4 landscape; /* A4 size in landscape orientation */
-                margin: 1cm; /* Set page margins */
-            }
-            """
-        )
-
-        # If there is an error in PDF generation, return an error response
+        # Check for PDF generation errors
         if pisa_status.err:
             return HttpResponse(f"PDF Creation Error: {pisa_status.err}", status=500)
 
-        # Save the PDF to file system
-        with open(pdf_file_path, 'wb') as pdf_file:
-            pdf_file.write(result.getvalue())
+        # Upload PDF to Azure Blob Storage
+        try:
+            blob_service_client = BlobServiceClient.from_connection_string(settings.AZURE_STORAGE_CONNECTION_STRING)
+            container_client = blob_service_client.get_container_client(settings.AZURE_CONTAINER)
 
-        # Save user activity for file download
-        UserActivity.objects.create(
-            user=request.user,
-            action='File Downloaded',
-            file_downloaded=f'downloads/{pdf_file_name}',
-            file_details='Details of the downloaded PDF',
-            timestamp=timezone.now()  # Use timezone-aware datetime
-        )
+            # Create the "downloads" folder if it doesn't exist
+            blob_name = f"downloads/{pdf_file_name}"
+            result.seek(0)  # Move to the beginning of the BytesIO stream
+            blob_client = container_client.get_blob_client(blob_name)
+
+            # Upload the PDF file
+            blob_client.upload_blob(result, overwrite=True)
+
+            UserActivity.objects.create(
+                user=request.user,
+                file_downloaded=blob_name,  # Keep the blob name for the downloaded file
+                timestamp=timezone.now()     # Log the current time of the download
+            )
+        except Exception as e:
+            logger.error(f"Error uploading PDF to Azure: {str(e)}")  # Ensure you have a logger set up
+            return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
 
         # Return the PDF response to display in the browser
-        result.seek(0)
-        response.write(result.read())
+        response = HttpResponse(result.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{pdf_file_name}"'
         return response
     else:
         upload_range = range(1, 21)
-        return render(request, 'input2.html',{'form1':form1,'previous_data':previous_data,'upload_range': upload_range})
+        return render(request, 'input2.html', {'form1': form1, 'previous_data': previous_data, 'upload_range': upload_range})
+
+    
+from azure.storage.blob import BlobServiceClient
 
 def view_downloaded_pdf(request, activity_id):
     activity = get_object_or_404(UserActivity, id=activity_id)
-    
+
     if activity.file_downloaded:
-        file_path = activity.file_downloaded.path  # Correctly get the file path
-        return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+        try:
+            # Initialize the BlobServiceClient
+            blob_service_client = BlobServiceClient.from_connection_string(settings.AZURE_STORAGE_CONNECTION_STRING)
+            container_client = blob_service_client.get_container_client(settings.AZURE_CONTAINER)
+
+            # Get the blob name from the FileField
+            blob_name = activity.file_downloaded.name
+            
+            # Download the blob
+            blob_client = container_client.get_blob_client(blob_name)
+            blob_data = blob_client.download_blob()
+            pdf_content = blob_data.readall()
+
+            # Create a response to serve the PDF
+            response = HttpResponse(pdf_content, content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{blob_name.split("/")[-1]}"'
+            return response
+
+        except Exception as e:
+            return HttpResponse(f"Error retrieving file from Azure: {str(e)}", status=500)
+
     else:
         return HttpResponse('File not found', status=404)
-
-
 
 
 from django.shortcuts import render
