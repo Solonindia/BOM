@@ -35,7 +35,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 ALLOWED_HOSTS = [
-    'battery-bom-bda9awg6gfbcfybm.eastus-01.azurewebsites.net',  # Add your Azure domain
+    'bom-andkg3cqe7htbrav.canadacentral-01.azurewebsites.net',  # Add your Azure domain
     '127.0.0.1',  # Include localhost for development
     'localhost',
     # Add any other domains if necessary
@@ -84,7 +84,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'BOM.wsgi.application'
-CSRF_TRUSTED_ORIGINS = ['https://battery-bom-bda9awg6gfbcfybm.eastus-01.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ['https://bom-andkg3cqe7htbrav.canadacentral-01.azurewebsites.net']
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
