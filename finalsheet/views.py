@@ -97,9 +97,6 @@ def logout_view(request):
     logout(request)
     return redirect('loginu')
 
-import logging
-
-logger = logging.getLogger('finalsheet') 
 
 def add_bom(request):
     form1 = TotalCostForm()
@@ -517,7 +514,6 @@ def add_bom(request):
                 timestamp=timezone.now()     # Log the current time of the download
             )
         except Exception as e:
-            logger.error(f"Error uploading PDF to Azure: {str(e)}")  # Ensure you have a logger set up
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
 
         # Return the PDF response to display in the browser
