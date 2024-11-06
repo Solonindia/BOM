@@ -3,7 +3,7 @@
 <html>
 <head>
     <style>
-       body {
+        body {
             position: relative; /* Ensure body is the relative container */
             margin: 0;
             padding: 0;
@@ -13,7 +13,6 @@
             font-size: xx-large;
             color: brown;
             text-align: center;
-            margin-top: 80px; /* Adjust to account for the logo */
         }
 
         table {
@@ -24,25 +23,28 @@
 
         th, td {
             border: 1px solid black; /* Add borders to the table cells */
-            padding: 5px; /* Add padding for better readability */
+            padding: 10px; /* Add padding for better readability */
             text-align: center; /* Center text horizontally */
         }
 
         th {
             background-color: #0033A0;
             color: azure;
-            padding: 18px; /* Add padding for better readability */
-            font-size: medium;
+            font-size: xx-large; /* Increase font size for the table headers */
+            padding: 12px 18px; /* Add more padding for header cells */
+            line-height: 1.3; /* Increase line height for better readability */
+        }
+
+        th br {
+            line-height: 1.5; /* Add more space between the lines when using <br> in header cells */
         }
 
         td {
             height: 50px; /* Set height for table cells */
+            padding: 8px; /* Add padding for better readability */
             display: flex;
             align-items: center; /* Center content vertically */
             justify-content: center; /* Center content horizontally */
-            transform: rotate(-90deg);
-            transform-origin: center center;
-            padding: 0px; /* Remove extra padding */
         }
 
         .eight {
@@ -51,37 +53,53 @@
 
         /* Adjust column widths with classes */
         .serial-number {
-            width: 50px; /* Adjust as needed */
+            width: 70px; /* Adjust as needed */
+            height: 50px;
+        }
+        .description {
+            width: 250px; /* Adjust as needed */
             height: 50px;
         }
 
-        .description {
-            width: 250px; /* Adjust as needed */
-        }
-
-        .dia, .length, .width, .thickness, .qty, .units, .density, .area, .volume, .weight {
+        .length, .width, .units, .density, .area, .volume {
             width: 100px; /* Adjust as needed for other columns */
         }
-
-        .rate, .cost {
-            width: 130px;
+        .weight{
+            width:120px;
         }
-
-        .table-2 th {
-            background-color: rgb(170, 209, 243);
-            font-weight: bold;
-            height:30px;
-            color:black;
+        .thickness{
+            width:120px;
         }
-        .table-2 td {
-            width:130px;
+        .rate,.cost{
+            width:160px;
+        }
+        .dia, .qty{
+            width:70px;
         }
         .logo {
             position: absolute;
-            top: 20px;
+            top: 2px;
             left: 20px;
             width: 70px; /* Adjust width as needed */
             height: auto; /* Maintain aspect ratio */
+        }
+
+        .top-right {
+            position: absolute;
+            top: 10px;  /* Adjust the distance from the top */
+            right: 10px;  /* Adjust the distance from the right */
+            text-align: right;
+            font-size: 14px;
+            color: #000000;
+            display: flex;  /* Use flexbox to arrange items in a row */
+            gap: 20px;  /* Space between each element */
+        }
+
+        /* Prevent the <p> tags from having default margins and paddings */
+        .top-right p {
+            margin: 0;  /* Remove default margin */
+            padding: 0;  /* Remove default padding */
+            white-space: nowrap;  /* Prevent text wrapping */
         }
     </style>
 </head>
@@ -89,22 +107,27 @@
     <div class="background-container">
         <img src="{% static 'logo.webp' %}" alt="Logo">
     </div>
+    <div class="top-right">
+        <p><b>Date:</b> {{ date }}</p>
+        <p><b>Battery Code:</b> {{ btycode }}</p>
+        <p><b>Battery Name:</b> {{ btyname }}</p>
+    </div>
     <h1><b>Cost Sheet</b></h1>
     <table border="1" cellspacing="0">
         <tr>
             <th class="serial-number">S.No</th>
-            <th class="description">Item <br>Description</th>
+            <th class="description">Item</th>
             <th class="dia">Dia</th>
             <th class="length">Length</th>
             <th class="width">Width</th>
             <th class="thickness">Thickness</th>
-            <th class="qty">Qty/bty</th>
-            <th class="units">Units of Purchase</th>
+            <th class="qty">Qty</th>
+            <th class="units">Units</th>
             <th class="density">Density</th>
             <th class="area">Area</th>
             <th class="volume">Volume</th>
             <th class="weight">Weight/ <br>SFT</th>
-            <th class="rate">Rate per unit of Purchase</th>
+            <th class="rate">Rate</th>
             <th class="cost">Cost</th>
         </tr>
         <tr>
@@ -198,7 +221,7 @@
             </tr>
             <tr>
                 <td>2.3</td>
-                <td><h2>Glass Textolyte Disc (Pin Isolater)</h2></td>
+                <td>Glass Textolyte Disc (Pin Isolater)</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -262,7 +285,7 @@
             </tr>
             <tr>
                 <td><b>3</b></td>
-                <td colspan=2 style="background-color: rgb(170, 209, 243);">SQUIB ASSEMBLY</td></b></td>
+                <td colspan=2 style="background-color: rgb(170, 209, 243);"><b>SQUIB ASSEMBLY</b></td></td>
             </tr>
             <tr>
                 <td>3.1</td>
@@ -362,7 +385,7 @@
             </tr>
             <tr>
                 <td><b>4</b></td>
-                <td colspan=2 style="background-color:rgb(170, 209, 243);">TOP ASSEMBLY</td></b></td>
+                <td colspan=2 style="background-color:rgb(170, 209, 243);"><b>TOP ASSEMBLY</b></td></td>
                
             </tr>
             <tr>
@@ -651,7 +674,7 @@
 
             <tr>
                 <td><b>7</b></td>
-                <td colspan=2 style="background-color:rgb(170, 209, 243);width:700%">TIE WIRE CRIMPING</td></b></td>
+                <td colspan=2 style="background-color:rgb(170, 209, 243);width:700%"><b>TIE WIRE CRIMPING</b></td></td>
             </tr>
             <tr>
                 <td>7.1</td>
@@ -719,7 +742,7 @@
             </tr>
             <tr>
                 <td><b>8</b></td>
-                <td colspan=2 style="background-color:rgb(170, 209, 243);width:700%">STACK WRAP</td></b></td>
+                <td colspan=2 style="background-color:rgb(170, 209, 243);width:700%"><b>STACK WRAP</b></td></td>
             </tr>
             <tr>
                 <td>8.1</td>
@@ -785,11 +808,9 @@
                 <td id="output_ru84">{{r84}}</td>
                 <td>{{c84}}</td>
             </tr>
-
             <tr>
                 <td><b>9</b></td>
                 <td colspan=2 style="background-color: rgb(170, 209, 243);"><b>CONTAINER ASSEMBLY</b></td>
-               
             </tr>
             <tr>
                 <td>9.1</td>
@@ -922,7 +943,7 @@
             </tr>
             <tr style="text-align: center;">
                 <td> <b>1</b></td>
-                <td colspan="2" style="background-color:rgb(170, 209, 243);">Anode Pellet</td>
+                <td colspan="2" style="background-color:rgb(170, 209, 243);"><b>Anode Pellet</b></td>
                
                 
             </tr>
@@ -1008,7 +1029,7 @@
             </tr>
             <tr>
                 <td> <b>2</b></td>
-                <td colspan="2" style="background-color: rgb(170, 209, 243);">Cathode pellet</td>
+                <td colspan="2" style="background-color: rgb(170, 209, 243);"><b>Cathode pellet</b></td>
                 
             </tr>
             <tr>
@@ -1109,7 +1130,7 @@
             </tr>
             <tr>
                 <td> <b>3</b></td>
-                <td colspan="2" style="background-color: rgb(170, 209, 243);">Electrolyte</td>
+                <td colspan="2" style="background-color: rgb(170, 209, 243);"><b>Electrolyte</b></td>
                 
             </tr>
             <tr>
@@ -1178,7 +1199,7 @@
             </tr>
             <tr>
                 <td> <b>4</b></td>
-                <td colspan="2" style="background-color: rgb(170, 209, 243);">Heat pellet</td>
+                <td colspan="2" style="background-color: rgb(170, 209, 243);"><b>Heat pellet</b></td>
             </tr>
             <tr>
                 <td>a</td>
@@ -1214,14 +1235,15 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="11" style="text-align:left;"><b>Total</b></td>
+                <td colspan="11" style="text-align:center;"><b>Total</b></td>
                 
-                <td colspan="2">{{total_cost}}</td>                   
+                <td colspan="2"><b>{{total_cost}}</b></td>                   
             </tr>
             <tr> 
                 <td  colspan="14" style="background-color: rgb(206, 205, 200);"></td>             
             </tr>
         </table><br><br><br><br><br>
+        <div style="font-size:larger;">
         <table class="table-2" border="1" cellspacing="0">
         <tr>
             <th>Phases</th>
@@ -1252,6 +1274,7 @@
             <td><b>Total phase cost</b></td>
             <td><b>{{ total_p }}</b></td>
         </tr>   
-    </table>             
+    </table>   
+</div>          
     </body>
 </html>

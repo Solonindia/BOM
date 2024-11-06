@@ -95,6 +95,23 @@
     <div class="main">
     <form action="" method="post">
         {% csrf_token %}
+        <button type="button" id="showTable">Battery Information</button> <br> <br> <br>
+        <div id="Table" style="display: none; justify-items: center;">
+            <table border="1" cellspacing="0">
+                <tr>
+                    <td>Date</td>
+                    <td><input type="text" name="date" id="date" required></td>
+                </tr>
+                <tr>
+                    <td>Battery Code</td>
+                    <td><input type="text"  name="btycode" required></td>
+                </tr>
+                <tr>
+                    <td>Battery Name</td>
+                    <td><input type="text"  name="btyname" required></td>
+                </tr>
+            </table><br>
+            </div>
         <button type="button" id="showFirstTable">Technical Specification</button> <br>
         <br>
         <div id="firstTable" style="display: none;">
@@ -537,8 +554,9 @@
 </div>
 <a href="{% url 'button_page' %}" class="home-link"><b>Home</b></a>
     <script>
-    let thirdTableVisible = false;
+       let thirdTableVisible = false;
        let firstTableVisible = false;
+       let TableVisible = false;
        let secondTableVisible = false;
        let fourthTableVisible = false;
 
@@ -825,10 +843,20 @@
         }
     });
 });
-
-   </script>
+        document.getElementById("showTable").addEventListener("click", function() {
+                        if (!TableVisible) {
+                            document.getElementById("Table").style.display = "block";
+                            TableVisible = true;
+                        } else {
+                            document.getElementById("Table").style.display = "none";
+                            TableVisible = false;
+                        }
+                    });
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        document.getElementById('date').value = formattedDate;
+</script>
 </div>
-    <br>
-
+<br>
 </body>
 </html>

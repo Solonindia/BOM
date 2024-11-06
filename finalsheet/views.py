@@ -120,7 +120,9 @@ def add_bom(request):
         s2 = float(request.POST['s2'])
         s3 = float(request.POST['s3'])
         s14 = float(request.POST['s14'])
-
+        date = request.POST['date']
+        btycode = request.POST['btycode']
+        btyname = request.POST['btyname']
           
         if form.is_valid():
             # Save form data
@@ -479,10 +481,11 @@ def add_bom(request):
         'c91':c91,'c92':c92,'c93':c93,'c94':c94,'c95':c95,'c96':c96,'c97':c97,
         'previous_data':previous_data,
 
-        'p1':p1,'p2':p2,'p3':p3,'p5':p5,'p8':p8,'total_p':total_p,'s14':s14
+        'p1':p1,'p2':p2,'p3':p3,'p5':p5,'p8':p8,'total_p':total_p,'s14':s14,
+        'btycode':btycode,'btyname':btyname,'date':date
         }
         timestamp_str = timezone.now().strftime('%Y%m%d%H%M%S')
-        pdf_file_name = f"result_bom_{timestamp_str}.pdf"
+        pdf_file_name = f"bom_cost_{timestamp_str}.pdf"
 
         # Render HTML to string
         html = render_to_string('resulting.html', data, request=request)
@@ -580,6 +583,9 @@ def add_bom1(request):
         s2 = float(request.POST['s2'])
         s3 = float(request.POST['s3'])
         s14 = float(request.POST['s14'])
+        date = request.POST['date']
+        btycode = request.POST['btycode']
+        btyname = request.POST['btyname']
         #print(s1)
         # if form.is_valid():
         #     form_data = form.save()
@@ -853,10 +859,10 @@ def add_bom1(request):
         'w92':w92,
         'w93':w93,
         'w94':w94,
-
+        'btycode':btycode,'btyname':btyname,'date':date
         }
         # Create a fixed PDF filename
-        pdf_file_name = "result_bom.pdf"
+        pdf_file_name = "bom_qty.pdf"
         pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'downloads', pdf_file_name)
 
         # Ensure the 'downloads' directory exists
