@@ -24,7 +24,7 @@
         th, td {
             border: 1px solid black; /* Add borders to the table cells */
             padding: 10px; /* Add padding for better readability */
-            text-align: center; /* Center text horizontally */
+            text-align: center; 
         }
 
         th {
@@ -36,12 +36,12 @@
         }
 
         th br {
-            line-height: 1.5; /* Add more space between the lines when using <br> in header cells */
+            line-height: 1.5; 
         }
 
         td {
-            height: 50px; /* Set height for table cells */
-            padding: 8px; /* Add padding for better readability */
+            height: 30px; /* Set height for table cells */
+            padding: 0px; /* Add padding for better readability */
             display: flex;
             align-items: center; /* Center content vertically */
             justify-content: center; /* Center content horizontally */
@@ -50,8 +50,6 @@
         .eight {
             white-space: nowrap;
         }
-
-        /* Adjust column widths with classes */
         .serial-number {
             width: 70px; /* Adjust as needed */
             height: 50px;
@@ -95,12 +93,14 @@
             gap: 20px;  /* Space between each element */
         }
 
-        /* Prevent the <p> tags from having default margins and paddings */
         .top-right p {
             margin: 0;  /* Remove default margin */
             padding: 0;  /* Remove default padding */
             white-space: nowrap;  /* Prevent text wrapping */
         }
+        .table-2 th {
+        font-size: 8px;  /* Increase font size here */
+    }
     </style>
 </head>
 <body>
@@ -1243,38 +1243,38 @@
                 <td  colspan="14" style="background-color: rgb(206, 205, 200);"></td>             
             </tr>
         </table><br><br><br><br><br>
-        <div style="font-size:larger;">
-        <table class="table-2" border="1" cellspacing="0">
-        <tr>
-            <th>Phases</th>
-            <th>Total Value</th>
-        </tr>
-        
-        <tr>
-            <td>Phase-1</td>
-            <td><b>{{ p1 }}</b></td>
-        </tr>
-        <tr>
-        <td>Phase-2</td>
-        <td><b>{{ p2 }}</b></td>
-        </tr>
-        <tr>
-        <td>Phase-3</td>
-        <td><b>{{ p3 }}</b></td>
-        </tr>
-        <tr>
-            <td>Phase-5</td>
-            <td><b>{{ p5 }}</b></td>
-        </tr>
-        <tr>
-            <td>Phase-8</td>
-            <td><b>{{ p8 }}</b></td>
-        </tr>
-        <tr>
-            <td><b>Total phase cost</b></td>
-            <td><b>{{ total_p }}</b></td>
-        </tr>   
-    </table>   
-</div>          
+        <div>
+            <table class="table-2" border="1" cellspacing="0">
+                <tr>
+                    <th style="height: 40px; font-size: 35px;">Phases</th>
+                    <th style="height: 40px; font-size: 35px;">Total Value</th>
+                </tr>
+                
+                <tr>
+                    <td>Phase-1</td>
+                    <td>{{ p1 }}</td>
+                </tr>
+                <tr>
+                    <td>Phase-2</td>
+                    <td>{{ p2 }}</td>
+                </tr>
+                <tr>
+                    <td>Phase-3</td>
+                    <td>{{ p3 }}</td>
+                </tr>
+                <tr>
+                    <td>Phase-5</td>
+                    <td>{{ p5 }}</td>
+                </tr>
+                <tr>
+                    <td>Phase-8</td>
+                    <td>{{ p8 }}</td>
+                </tr>
+                <tr>
+                    <td><b>Total phase cost</b></td>
+                    <td><b>{{ total_p }}</b></td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>
