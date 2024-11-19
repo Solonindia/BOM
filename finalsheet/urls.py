@@ -6,6 +6,7 @@ urlpatterns = [
     path('superuser/login/', views.login1_view, name='login'),
     path('BOM/', views.add_bom, name='BOMP'),
     path('BOM1/',views.add_bom1,name='upload1'),
+    path('BOMt/',views.add_bom3,name='BOM1'),
     path('', views.button_page, name='button_page'),
     path('superuser/services/', views.admin_page, name='admin'),
     path('logout/', views.logout_view, name='logout_view'),
