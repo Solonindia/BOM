@@ -315,10 +315,10 @@ def add_bom(request):
         c31 = round((w31 * safe_float(updated_data.ru31)), 2)
         c32 = round(1 * safe_float(updated_data.ru32), 4)
         c33 = round((w34 * safe_float(updated_data.ru33)), 4)
-        c34 = round(1 * safe_float(updated_data.ru34))
-        c35 = round(1 * safe_float(updated_data.ru35))
-        c37 = round(w37 * safe_float(updated_data.ru37))
-        c41 = round(1 * safe_float(updated_data.ru41))
+        c34 = round(1 * safe_float(updated_data.ru34),4)
+        c35 = round(1 * safe_float(updated_data.ru35),4)
+        c37 = round(w37 * safe_float(updated_data.ru37),4)
+        c41 = round(1 * safe_float(updated_data.ru41),4)
         c43 = round((w43 * safe_float(updated_data.ru43)), 4)
         c44 = round(1 * safe_float(updated_data.ru44))
         c51 = round(w51 * safe_float(updated_data.ru51))
@@ -449,8 +449,8 @@ def add_bom(request):
         'r31':updated_data.ru31,'r32':updated_data.ru32,'r34':updated_data.ru34,'r35':updated_data.ru35,'r33':updated_data.ru33,       
         'r41':updated_data.ru41,'r43':updated_data.ru43,'r44':updated_data.ru44,'r37':updated_data.ru37,
         'r51':updated_data.ru51,'r52':updated_data.ru52,'r57':updated_data.ru57,'r58':updated_data.ru58,
-        'r61':updated_data.ru61,'r63':updated_data.ru63,'r64':updated_data.ru24,'r65':updated_data.ru65,
-        'r71':updated_data.ru71,'r72':updated_data.ru72,'r73':updated_data.ru73,'r74':updated_data.ru24,
+        'r61':updated_data.ru61,'r63':updated_data.ru63,'r64':updated_data.ru74,'r65':updated_data.ru65,
+        'r71':updated_data.ru71,'r72':updated_data.ru72,'r73':updated_data.ru73,'r74':updated_data.ru74,
         'r81':updated_data.ru81,'r82':updated_data.ru82,'r83':updated_data.ru83,'r84':updated_data.ru84,
         'r91':updated_data.ru91,'r92':updated_data.ru92,'r93':updated_data.ru93,'r94':updated_data.ru94,'r95':updated_data.ru95,
         'r96':updated_data.ru96,'r97':updated_data.ru97,
@@ -524,7 +524,7 @@ def add_bom(request):
         response['Content-Disposition'] = f'attachment; filename="{pdf_file_name}"'
         return response
     else:
-        upload_range = range(1, 21)
+        upload_range = range(1, 36)
         return render(request, 'input2.html', {'form1': form1, 'previous_data': previous_data, 'upload_range': upload_range})
 
     
@@ -888,7 +888,7 @@ def add_bom1(request):
         # Return the PDF response to display it in the browser
         return response
     else:
-        upload_range = range(1, 21)
+        upload_range = range(1, 36)
         return render(request, 'input1.html',{'upload_range': upload_range})
 
 
@@ -1046,7 +1046,7 @@ def add_bom3(request):
         a93 = round((w1 + 2) * (w1 + 2) / 100, 6)
         a94 = round((cd + 2) * (cd + 2), 6)
 
-        v22 = round((a22 * 0.15) / 10, 2)
+        v22 = round((a22 * 0.3) / 10, 2)
         v25 = round((a25 * 0.15) / 10, 4)
         v26 = round((a26 * 0.15) / 10, 4)
         v31 = round((a31 * 0.15) / 10, 4)
@@ -1243,8 +1243,8 @@ def add_bom3(request):
         'r31':updated_data.ru31,'r32':updated_data.ru32,'r34':updated_data.ru34,'r35':updated_data.ru35,'r33':updated_data.ru33,       
         'r41':updated_data.ru41,'r43':updated_data.ru43,'r44':updated_data.ru44,'r37':updated_data.ru37,
         'r51':updated_data.ru51,'r52':updated_data.ru52,'r57':updated_data.ru57,'r58':updated_data.ru58,
-        'r61':updated_data.ru61,'r63':updated_data.ru63,'r64':updated_data.ru24,'r65':updated_data.ru65,
-        'r71':updated_data.ru71,'r72':updated_data.ru72,'r73':updated_data.ru73,'r74':updated_data.ru24,
+        'r61':updated_data.ru61,'r63':updated_data.ru63,'r64':updated_data.ru64,'r65':updated_data.ru65,
+        'r71':updated_data.ru71,'r72':updated_data.ru72,'r73':updated_data.ru73,'r74':updated_data.ru74,
         'r81':updated_data.ru81,'r82':updated_data.ru82,'r83':updated_data.ru83,'r84':updated_data.ru84,
         'r91':updated_data.ru91,'r92':updated_data.ru92,'r93':updated_data.ru93,'r94':updated_data.ru94,'r95':updated_data.ru95,
         'r96':updated_data.ru96,'r97':updated_data.ru97,
@@ -1318,5 +1318,5 @@ def add_bom3(request):
         response['Content-Disposition'] = f'attachment; filename="{pdf_file_name}"'
         return response
     else:
-        upload_range = range(1, 21)
+        upload_range = range(1, 36)
         return render(request, 'input2.html', {'form1': form1, 'previous_data': previous_data, 'upload_range': upload_range})   
