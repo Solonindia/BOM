@@ -18,6 +18,7 @@ from .models import UserActivity
 from django.shortcuts import get_object_or_404
 from django.http import FileResponse, HttpResponse
 from io import BytesIO
+from django.contrib.auth.decorators import login_required
 
 
 def button_page(request):
@@ -97,7 +98,7 @@ def logout_view(request):
     logout(request)
     return redirect('loginu')
 
-
+@login_required
 def add_bom(request):
     form1 = TotalCostForm()
     try:
@@ -134,16 +135,28 @@ def add_bom(request):
         v13 = float(round(f3/1.5))
         
 
-        num_rows = 13  # Define the number of rows
+        num_rows = 35  # Updated from 13 to 35
 
-        # Initialize lists to store values
         t_values, c_values, d_values = [], [], []
 
-        # Loop through the POST data to extract values dynamically
         for i in range(1, num_rows + 1):
-            t_values.append(float(request.POST.get(f't{i}', 0)))  # Default to 0 if not found
-            c_values.append(float(request.POST.get(f'c{i}', 0)))  # Default to 0 if not found
-            d_values.append(float(request.POST.get(f'd{i}', 0)))  # Default to 0 if not found 
+            try:
+                t = float(request.POST.get(f't{i}', '').strip())
+            except (ValueError, TypeError):
+                t = 0.0
+            try:
+                c = float(request.POST.get(f'c{i}', '').strip())
+            except (ValueError, TypeError):
+                c = 0.0
+            try:
+                d = float(request.POST.get(f'd{i}', '').strip())
+            except (ValueError, TypeError):
+                d = 0.0
+
+            t_values.append(t)
+            c_values.append(c)
+            d_values.append(d)
+
 
         # Calculate results dynamically using list comprehensions
         r_values = [t - c for t, c in zip(t_values, c_values)]
@@ -302,7 +315,7 @@ def add_bom(request):
 
         updated_data = TotalCost.objects.latest('id')
 
-# Ensure values are not None and provide a default value if they are
+        # Ensure values are not None and provide a default value if they are
         def safe_float(value, default=0.0):
             return float(value) if value is not None else default
 
@@ -511,10 +524,15 @@ def add_bom(request):
             # Upload the PDF file
             blob_client.upload_blob(result, overwrite=True)
 
+            if request.user.is_authenticated:
+                user_instance = request.user
+            else:
+                return HttpResponse("User not authenticated", status=403)  # Or handle appropriately
+
             UserActivity.objects.create(
-                user=request.user,
-                file_downloaded=blob_name,  # Keep the blob name for the downloaded file
-                timestamp=timezone.now()     # Log the current time of the download
+                user=user_instance,
+                file_downloaded=blob_name,
+                timestamp=timezone.now()
             )
         except Exception as e:
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
@@ -598,16 +616,26 @@ def add_bom1(request):
         #v14 = round((v11/280),2)
         
 
-        num_rows = 13  # Define the number of rows
-
-        # Initialize lists to store values
+        num_rows = 35  # Updated from 13 to 35
         t_values, c_values, d_values = [], [], []
 
-        # Loop through the POST data to extract values dynamically
         for i in range(1, num_rows + 1):
-            t_values.append(float(request.POST.get(f't{i}', 0)))  # Default to 0 if not found
-            c_values.append(float(request.POST.get(f'c{i}', 0)))  # Default to 0 if not found
-            d_values.append(float(request.POST.get(f'd{i}', 0)))  # Default to 0 if not found 
+            try:
+                t = float(request.POST.get(f't{i}', '').strip())
+            except (ValueError, TypeError):
+                t = 0.0
+            try:
+                c = float(request.POST.get(f'c{i}', '').strip())
+            except (ValueError, TypeError):
+                c = 0.0
+            try:
+                d = float(request.POST.get(f'd{i}', '').strip())
+            except (ValueError, TypeError):
+                d = 0.0
+
+            t_values.append(t)
+            c_values.append(c)
+            d_values.append(d)
 
         # Calculate results dynamically using list comprehensions
         r_values = [t - c for t, c in zip(t_values, c_values)]
@@ -928,17 +956,27 @@ def add_bom3(request):
         v13 = float(round(f3/1.5))
         
 
-        num_rows = 13  # Define the number of rows
+        num_rows = 35  # Updated from 13 to 35
 
-        # Initialize lists to store values
         t_values, c_values, d_values = [], [], []
 
-        # Loop through the POST data to extract values dynamically
         for i in range(1, num_rows + 1):
-            t_values.append(float(request.POST.get(f't{i}', 0)))  # Default to 0 if not found
-            c_values.append(float(request.POST.get(f'c{i}', 0)))  # Default to 0 if not found
-            d_values.append(float(request.POST.get(f'd{i}', 0)))  # Default to 0 if not found 
+            try:
+                t = float(request.POST.get(f't{i}', '').strip())
+            except (ValueError, TypeError):
+                t = 0.0
+            try:
+                c = float(request.POST.get(f'c{i}', '').strip())
+            except (ValueError, TypeError):
+                c = 0.0
+            try:
+                d = float(request.POST.get(f'd{i}', '').strip())
+            except (ValueError, TypeError):
+                d = 0.0
 
+            t_values.append(t)
+            c_values.append(c)
+            d_values.append(d)
         # Calculate results dynamically using list comprehensions
         r_values = [t - c for t, c in zip(t_values, c_values)]
         q_values = [r * d for r, d in zip(r_values, d_values)]

@@ -175,9 +175,9 @@
             {% for i in upload_range %}
             <tr>
                 <td>{{ i }}.</td>
-                <td><input type="text" pattern="\d+(\.\d+)?" name="c{{ i }}" required></td>
-                <td><input type="text" pattern="\d+(\.\d+)?" name="t{{ i }}" required></td>
-                <td><input type="text" pattern="\d+(\.\d+)?" name="d{{ i }}" required></td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="c{{ i }}"></td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="t{{ i }}"></td>
+                <td><input type="text" pattern="\d+(\.\d+)?" name="d{{ i }}"></td>
             </tr>
             {% endfor %}
         </table>
