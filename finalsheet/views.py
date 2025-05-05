@@ -956,7 +956,7 @@ def add_bom3(request):
         v13 = float(round(f3/1.5))
         
 
-        num_rows = 35  # Updated from 13 to 35
+        num_rows = 35  # Updated to 35
 
         t_values, c_values, d_values = [], [], []
 
@@ -1134,7 +1134,7 @@ def add_bom3(request):
 
         updated_data = TotalCost.objects.latest('id')
 
-# Ensure values are not None and provide a default value if they are
+        # Ensure values are not None and provide a default value if they are
         def safe_float(value, default=0.0):
             return float(value) if value is not None else default
 
@@ -1343,11 +1343,12 @@ def add_bom3(request):
             # Upload the PDF file
             blob_client.upload_blob(result, overwrite=True)
 
-            UserActivity.objects.create(
-                user=request.user,
-                file_downloaded=blob_name,  # Keep the blob name for the downloaded file
-                timestamp=timezone.now()     # Log the current time of the download
-            )
+            if request.user.is_authenticated:
+                UserActivity.objects.create(
+                    user=request.user,
+                    file_downloaded=blob_name,
+                    timestamp=timezone.now()
+                )
         except Exception as e:
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
 
