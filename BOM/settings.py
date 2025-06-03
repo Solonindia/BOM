@@ -33,12 +33,12 @@ DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [
     'battery-bom-bda9awg6gfbcfybm.eastus-01.azurewebsites.net',  # Add your Azure domain
     '127.0.0.1',  # Include localhost for development
     'localhost',
-    # Add any other domains if necessary
+    
 ]
 
 # Application definition
@@ -121,6 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+
+LOGIN_URL = '/Battery/home/'
 
 LANGUAGE_CODE = 'en-us'
 

@@ -29,6 +29,7 @@ def button_page(request):
             return redirect('loginu')
     return render(request, 'button_page.html')
 
+@login_required
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -37,7 +38,7 @@ def signup_view(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             login(request, user)
-            return redirect('admin')
+            return redirect('superuser')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -70,7 +71,7 @@ def login1_view(request):
             password = form.cleaned_data['password']
             if username == VALID_USERNAME and password == VALID_PASSWORD:
                 # Redirect to the main page or a protected page
-                return redirect('admin')
+                return redirect('superuser')
             else:
                 messages.error(request, 'Invalid username or password')
     else:
@@ -84,6 +85,7 @@ def admin_page(request):
 def user_page(request):
     return render(request,'user.html')
 
+@login_required
 def user_activity_view(request):
     activities = UserActivity.objects.all()  # Adjust according to your model
     return render(request, 'user_activity.html', {'activities': activities})
@@ -585,7 +587,7 @@ from xhtml2pdf import pisa
 import os
 from django.conf import settings
 
-
+@login_required
 def add_bom1(request):
     #form1 = TotalCostForm()
     if request.method == 'POST':
@@ -919,7 +921,7 @@ def add_bom1(request):
         upload_range = range(1, 36)
         return render(request, 'input1.html',{'upload_range': upload_range})
 
-
+@login_required
 def add_bom3(request):
     form1 = TotalCostForm()
     try:
