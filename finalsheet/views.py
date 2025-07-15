@@ -415,7 +415,7 @@ def add_bom(request):
         p8 = round(total_cost_sheet * 1.2 * 15,6)
 
         total_p = round(p1+p2+p3+p5+p8,6)
-
+        request.session['btycode'] = request.POST.get('btycode', '')
         data = {'ru1a':updated_data.ru1a,'ru1c':updated_data.ru1c,'ru1d':updated_data.ru1d,'ru1e':updated_data.ru1e,
         'ru2a':updated_data.ru2a,'ru2b':updated_data.ru2b,'ru2d':updated_data.ru2d,'ru2e':updated_data.ru2e,
         'ru2f':updated_data.ru2f,'ru3b':updated_data.ru3b,'ru3c':updated_data.ru3c,'ru3d':updated_data.ru3d,
@@ -499,6 +499,8 @@ def add_bom(request):
         'p1':p1,'p2':p2,'p3':p3,'p5':p5,'p8':p8,'total_p':total_p,'s14':s14,
         'btycode':btycode,'btyname':btyname,'date':date
         }
+
+
         timestamp_str = timezone.now().strftime('%Y%m%d%H%M%S')
         pdf_file_name = f"bom_cost_{timestamp_str}.pdf"
 
@@ -534,7 +536,8 @@ def add_bom(request):
             UserActivity.objects.create(
                 user=user_instance,
                 file_downloaded=blob_name,
-                timestamp=timezone.now()
+                timestamp=timezone.now(),
+                enquiry_number=btycode
             )
         except Exception as e:
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
@@ -827,15 +830,9 @@ def add_bom1(request):
         hp = (wt4*v12*s1)+(wt5*6)+(wt6*5)
         hpfe = round((hp * 0.87 * 0.001 * 1.1),4)
         hpkclo4 = round((hp * 0.13 * 0.001 * 1.1),6)
-
-
-        #total_cost = rc1a+rc1c+rc1d+rc1e+rc2a+rc2b+rc2d+rc2e+rc2f+rc3b+rc3c+rc3d+rc4a+rc4b+c21+c22+c23+c24+c25+c26+c31+c32+c33+c34+c35+c37+c41+c43+c44+c51+c52+c57+c58+c61+c63+c64+c65+c71+c72+c73+c74+c81+c82+c83+c84+c91+c92+c93+c94+c95+c96+c97
-      
+        request.session['btycode'] = request.POST.get('btycode', '')
 
         data = {
-
-        #'rc1a':rc1a,'rc1c':rc1c,'rc1d':rc1d,'rc1e':rc1e,'rc2a':rc2a,'rc2b':rc2b,'rc2d':rc2d,'rc2e':rc2e,
-        #'rc2f':rc2f,'rc3b':rc3b,'rc3c':rc3c,'rc3d':rc3d,'rc4a':rc4a,'rc4b':rc4b,
 
         'f2':f2,'f3':f3,'f4':f4,'f5':f5,'f6':f6,'f7':f7, 'f8':f8,
         'v10':v10,'v11':v11,'v12':v12,'v13':v13,'v15':v15,
@@ -891,31 +888,46 @@ def add_bom1(request):
         'w94':w94,
         'btycode':btycode,'btyname':btyname,'date':date
         }
-        # Create a fixed PDF filename
-        pdf_file_name = "bom_qty.pdf"
-        pdf_file_path = os.path.join(settings.MEDIA_ROOT, 'downloads', pdf_file_name)
-
-        # Ensure the 'downloads' directory exists
-        os.makedirs(os.path.dirname(pdf_file_path), exist_ok=True)
+        timestamp_str = timezone.now().strftime('%Y%m%d%H%M%S')
+        pdf_file_name = f"bom_cost_{timestamp_str}.pdf"
 
         # Render HTML to string
-        html = render_to_string('result1.html', data, request=request)
+        html = render_to_string('resulting.html', data, request=request)
 
-        # Create a response object with PDF mime type
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{pdf_file_name}"'
+        # Use BytesIO to generate the PDF
+        result = BytesIO()
+        pisa_status = pisa.CreatePDF(html, dest=result, encoding='utf-8')
 
-        # Generate PDF
-        pisa_status = pisa.CreatePDF(html, dest=response)
-
+        # Check for PDF generation errors
         if pisa_status.err:
-            return HttpResponse('PDF Creation Error: %s' % pisa_status.err, status=500)
+            return HttpResponse(f"PDF Creation Error: {pisa_status.err}", status=500)
 
-        # Save PDF to file system
-        with open(pdf_file_path, 'wb') as pdf_file:
-            pisa.CreatePDF(html, dest=pdf_file)
+        # Upload PDF to Azure Blob Storage
+        try:
+            blob_service_client = BlobServiceClient.from_connection_string(settings.AZURE_STORAGE_CONNECTION_STRING)
+            container_client = blob_service_client.get_container_client(settings.AZURE_CONTAINER)
 
-        # Return the PDF response to display it in the browser
+            # Create the "downloads" folder if it doesn't exist
+            blob_name = f"downloads/{pdf_file_name}"
+            result.seek(0)  # Move to the beginning of the BytesIO stream
+            blob_client = container_client.get_blob_client(blob_name)
+
+            # Upload the PDF file
+            blob_client.upload_blob(result, overwrite=True)
+
+            if request.user.is_authenticated:
+                UserActivity.objects.create(
+                    user=request.user,
+                    file_downloaded=blob_name,
+                    timestamp=timezone.now(),
+                    enquiry_number=btycode
+                )
+        except Exception as e:
+            return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
+
+        # Return the PDF response to display in the browser
+        response = HttpResponse(result.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{pdf_file_name}"'
         return response
     else:
         upload_range = range(1, 36)
@@ -1234,7 +1246,7 @@ def add_bom3(request):
         p8 = round(total_cost_sheet * 1.2 * 15,6)
 
         total_p = round(p1+p2+p3+p5+p8,6)
-
+        request.session['btycode'] = request.POST.get('btycode', '')
         data = {'ru1a':updated_data.ru1a,'ru1c':updated_data.ru1c,'ru1d':updated_data.ru1d,'ru1e':updated_data.ru1e,
         'ru2a':updated_data.ru2a,'ru2b':updated_data.ru2b,'ru2d':updated_data.ru2d,'ru2e':updated_data.ru2e,
         'ru2f':updated_data.ru2f,'ru3b':updated_data.ru3b,'ru3c':updated_data.ru3c,'ru3d':updated_data.ru3d,
@@ -1349,7 +1361,8 @@ def add_bom3(request):
                 UserActivity.objects.create(
                     user=request.user,
                     file_downloaded=blob_name,
-                    timestamp=timezone.now()
+                    timestamp=timezone.now(),
+                    enquiry_number=btycode
                 )
         except Exception as e:
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)

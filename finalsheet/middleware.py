@@ -33,5 +33,6 @@ class UserActivityMiddleware(MiddlewareMixin):
                 user=request.user,
                 action=request.path,
                 timestamp=timezone.now(),
+                enquiry_number=btycode,
             )
         return None
