@@ -91,11 +91,11 @@
                     <td><input type="text" name="date" id="date" required></td>
                 </tr>
                 <tr>
-                    <td>Battery Code</td>
+                    <td>Battery code/Enquiry number</td>
                     <td><input type="text"  name="btycode" required></td>
                 </tr>
                 <tr>
-                    <td>Battery Name</td>
+                    <td>Battery Name/Project Name</td>
                     <td><input type="text"  name="btyname" required></td>
                 </tr>
             </table><br>
@@ -163,9 +163,9 @@
             {% for i in upload_range %}
             <tr>
                 <td>{{ i }}.</td>
-                <td><input type="text" pattern="\d+(\.\d+)?" name="c{{ i }}" required></td>
-                <td><input type="text" pattern="\d+(\.\d+)?" name="t{{ i }}" required></td>
-                <td><input type="text" pattern="\d+(\.\d+)?" name="d{{ i }}" required></td>
+                <td><input type="text" name="c{{ i }}" class="dp-input" data-row="{{ i }}" data-col="0"></td>
+                <td><input type="text" name="t{{ i }}" class="dp-input" data-row="{{ i }}" data-col="1"></td>
+                <td><input type="text" name="d{{ i }}" class="dp-input" data-row="{{ i }}" data-col="2"></td>
             </tr>
             {% endfor %}
         </table>
@@ -197,6 +197,39 @@
         <button id="submitBtn" type="submit" style="display: none;">Submit</button>
         </form>
         <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const pasteArea = document.getElementById('pasteArea');
+                const inputs = document.querySelectorAll('.dp-input');
+                let activeInput = null;
+
+                inputs.forEach(input => {
+                    input.addEventListener('focus', function () {
+                        activeInput = this;
+                    });
+
+                    input.addEventListener('paste', function (e) {
+                        e.preventDefault(); // Stop default paste
+                        const pasteData = (e.clipboardData || window.clipboardData).getData('text');
+                        
+                        const rows = pasteData.trim().split(/\r?\n/);
+                        const startRow = parseInt(this.dataset.row);
+                        const startCol = parseInt(this.dataset.col);
+
+                        rows.forEach((rowLine, i) => {
+                            const values = rowLine.split('\t');
+                            values.forEach((val, j) => {
+                                const r = startRow + i;
+                                const c = startCol + j;
+                                const selector = `.dp-input[data-row="${r}"][data-col="${c}"]`;
+                                const cell = document.querySelector(selector);
+                                if (cell) cell.value = val.trim();
+                            });
+                        });
+                    });
+                });
+            });
+ 
                let TableVisible = false;
                let thirdTableVisible = false;
                let firstTableVisible = false;

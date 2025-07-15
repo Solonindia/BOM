@@ -4,6 +4,9 @@
 <head>
     <title>User Activity</title>
     <style>
+        h1{
+            color:brown;
+        }
         body {
             background-color: rgb(189, 228, 241);
             text-align: center;
@@ -38,13 +41,14 @@
     <div class="logo-container">
         <img src="{% static 'logo.webp' %}" alt="Logo">
     </div>
-    <h1>User Activity</h1>
+    <h1>BOM-History</h1>
     <table border="1" cellspacing="0">
         <tr>
             <th>User</th>
-            <th>File Downloaded</th>
             <th>Date</th>
-            <th>Download Time</th> <!-- Updated column header -->
+            <th>Created Time</th> <!-- Updated column header -->
+            <th>Battery Code/Enquiry Number</th>
+            <th>BOM</th>
         </tr>
         {% for activity in activities %}
         <tr class="{% if activity.user.is_superuser %}superuser-row{% endif %}">
@@ -56,17 +60,20 @@
                 {% endif %}
             </td>
             <td>
+                {{ activity.timestamp|date:"Y-m-d" }}
+            </td>
+            <td>
+                {{ activity.timestamp|date:"H:i:s" }}
+            </td>
+            <td>
+                {{ activity.enquiry_number|default:" " }}  <!-- ✅ Show the Enquiry Number -->
+            </td>
+            <td>
                 {% if activity.file_downloaded %}
                     <a href="{% url 'view_downloaded_pdf' activity.id %}">Download</a>
                 {% else %}
                     No file
                 {% endif %}
-            </td>
-            <td>
-                {{ activity.timestamp|date:"Y-m-d" }} <!-- Display date -->
-            </td>
-            <td>
-                {{ activity.timestamp|date:"H:i:s" }} <!-- Display time when downloaded -->
             </td>
         </tr>
         {% endfor %}
