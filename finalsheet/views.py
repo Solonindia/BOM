@@ -85,10 +85,39 @@ def admin_page(request):
 def user_page(request):
     return render(request,'user.html')
 
+# @login_required
+# def user_activity_view(request):
+#     activities = UserActivity.objects.all()  # Adjust according to your model
+#     return render(request, 'user_activity.html', {'activities': activities})
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.db.models import F
+from django.db.models.expressions import Window
+from django.db.models.functions import RowNumber
+
 @login_required
 def user_activity_view(request):
-    activities = UserActivity.objects.all()  # Adjust according to your model
+    # RowNumber() per enquiry_number ordered by timestamp (and id to break ties)
+    activities = (
+        UserActivity.objects
+        .annotate(
+            version=Window(
+                expression=RowNumber(),
+                partition_by=[F('enquiry_number')],
+                order_by=[F('timestamp').asc(), F('id').asc()]
+            )
+        )
+        .order_by('-timestamp', '-id')   # table display latest first (your choice)
+    )
     return render(request, 'user_activity.html', {'activities': activities})
+
+
+
+
 
 def logout_view(request):
     if request.user.is_authenticated:
@@ -126,6 +155,8 @@ def add_bom(request):
         date = request.POST['date']
         btycode = request.POST['btycode']
         btyname = request.POST['btyname']
+        bty1code = request.POST['bty1code']
+        bty1name = request.POST['bty1name']
           
         if form.is_valid():
             # Save form data
@@ -497,7 +528,8 @@ def add_bom(request):
         'previous_data':previous_data,
 
         'p1':p1,'p2':p2,'p3':p3,'p5':p5,'p8':p8,'total_p':total_p,'s14':s14,
-        'btycode':btycode,'btyname':btyname,'date':date
+        'btycode':btycode,'btyname':btyname,'date':date,
+        'bty1code':bty1code,'bty1name':bty1name,
         }
 
 
@@ -537,7 +569,11 @@ def add_bom(request):
                 user=user_instance,
                 file_downloaded=blob_name,
                 timestamp=timezone.now(),
-                enquiry_number=btycode
+                enquiry_number=btycode,
+
+                enquiry_number1=bty1code,
+                enquiry_number2=btyname,
+                enquiry_number3=bty1name,
             )
         except Exception as e:
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
@@ -609,6 +645,9 @@ def add_bom1(request):
         date = request.POST['date']
         btycode = request.POST['btycode']
         btyname = request.POST['btyname']
+        bty1code = request.POST['bty1code']
+        bty1name = request.POST['bty1name']
+
         #print(s1)
         # if form.is_valid():
         #     form_data = form.save()
@@ -886,7 +925,8 @@ def add_bom1(request):
         'w92':w92,
         'w93':w93,
         'w94':w94,
-        'btycode':btycode,'btyname':btyname,'date':date
+        'btycode':btycode,'btyname':btyname,'date':date,
+        'bty1code':bty1code,'bty1name':bty1name,
         }
         timestamp_str = timezone.now().strftime('%Y%m%d%H%M%S')
         pdf_file_name = f"bom_cost_{timestamp_str}.pdf"
@@ -920,7 +960,10 @@ def add_bom1(request):
                     user=request.user,
                     file_downloaded=blob_name,
                     timestamp=timezone.now(),
-                    enquiry_number=btycode
+                    enquiry_number=btycode,
+                    enquiry_number1=bty1code,
+                    enquiry_number2=btyname,
+                    enquiry_number3=bty1name,
                 )
         except Exception as e:
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
@@ -959,6 +1002,8 @@ def add_bom3(request):
         date = request.POST['date']
         btycode = request.POST['btycode']
         btyname = request.POST['btyname']
+        bty1code = request.POST['bty1code']
+        bty1name = request.POST['bty1name']
           
         if form.is_valid():
             # Save form data
@@ -1328,7 +1373,8 @@ def add_bom3(request):
         'previous_data':previous_data,
 
         'p1':p1,'p2':p2,'p3':p3,'p5':p5,'p8':p8,'total_p':total_p,'s14':s14,
-        'btycode':btycode,'btyname':btyname,'date':date
+        'btycode':btycode,'btyname':btyname,'date':date,
+        'bty1code':bty1code,'bty1name':bty1name,
         }
         timestamp_str = timezone.now().strftime('%Y%m%d%H%M%S')
         pdf_file_name = f"bom_cost_{timestamp_str}.pdf"
@@ -1362,7 +1408,11 @@ def add_bom3(request):
                     user=request.user,
                     file_downloaded=blob_name,
                     timestamp=timezone.now(),
-                    enquiry_number=btycode
+                    enquiry_number=btycode,
+
+                    enquiry_number1=bty1code,
+                    enquiry_number2=btyname,
+                    enquiry_number3=bty1name,
                 )
         except Exception as e:
             return HttpResponse(f"Error uploading PDF to Azure: {str(e)}", status=500)
