@@ -100,5 +100,9 @@ class UserActivity(models.Model):
     timestamp = models.DateTimeField(null=True, blank=True)
     enquiry_number = models.CharField(max_length=100, null=True, blank=True)
 
+    enquiry_number1 = models.CharField(max_length=100, null=True, blank=True)
+    enquiry_number2 = models.CharField(max_length=100, null=True, blank=True)
+    enquiry_number3 = models.CharField(max_length=100, null=True, blank=True)
+
     def __str__(self):
         return f"{self.user.username} - {self.timestamp}"

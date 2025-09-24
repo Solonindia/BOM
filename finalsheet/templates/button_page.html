@@ -2,94 +2,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Page</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: white; /* Background color for space around the image */
-        }
-        .background-container {
-            width: 100%;
-            height: 90%; /* Adjust this to control the height of the image area */
-            background-image: url("{% static 'bty1.webp' %}");
-            background-size: contain; /* Contain to fit the image within the area */
-            background-position: center; /* Center the background image */
-            background-repeat: no-repeat;
-            padding: 6% 0; /* Adjust padding to create space above and below */
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .logo {
-            position: fixed; /* Fixed positioning */
-            top: 10px; /* Adjust as needed */
-            left: 20px; /* Adjust as needed */
-            width: 70px; /* Adjust width as needed */
-            height: auto; /* Maintain aspect ratio */
-            z-index: 10; /* Ensure it appears above other elements */
-        }
-        .signup-container {
-            max-width: 400px;
-            width: 100%;
-            padding: 50px;
-            border: 1px solid #0c0c0c;
-            border-radius: 8px;
-            background-color: #f6f5fa;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            opacity: 0;
-            transform: translateY(100px);
-            animation: slideUp 2s ease-out forwards;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Button Page</title>
+<style>
+  :root{
+    --header-h: 88px;   /* ⬅️ increase/decrease as you like */
+    --footer-h: 72px;   /* ⬅️ increase/decrease as you like */
+  }
 
-        .signup-container h2 {
-            margin-bottom: 20px;
-            color: #fff;
-        }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:white;
+    font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    height:100%; 
+  }
 
-        .signup-container form {
-            display: flex;
-            justify-content: space-between;
-        }
+  /* Header */
+  header{
+    height:var(--header-h);
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border-bottom:1px solid #e6e6e6;
+    background:#fff;
+    position:sticky; top:0;
+    z-index:10;
+  }
+  header .logo{
+    width:70px; height:auto;
+  }
+  header .brand{
+    font-weight:600; color:#0c0c0c;
+  }
 
-        .signup-container form button[type="submit"] {
-            padding: 25px;
-            background-color: #02027c;
-            color: rgb(247, 247, 252);
-            border: none;
-            cursor: pointer;
-            width: 48%;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 16px;
-        }
+  /* Main area accounts for header+footer heights */
+    main{
+        height: calc(100vh - var(--header-h) - var(--footer-h));
+        display:flex; align-items:center; justify-content:center;
+        padding:0;              /* no extra space */
+        margin:0;
+    }
 
-        /* Keyframes for sliding up animation */
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    .background-container{
+        width:100%;
+        height:100%;            /* key: match the main's height */
+        background-image:url("{% static 'bty1.webp' %}");
+        background-position:center center;
+        background-repeat:no-repeat;
+        display:flex; align-items:center; justify-content:center;
+        /* choose ONE of the two lines below */
+        background-size:contain;  /* show full image (may leave side/top bands) */
+        /* background-size:cover; */ /* fill fully (may crop a bit) */
+    }
+
+  .signup-container{
+    max-width:400px; width:100%;
+    padding:50px;
+    border:1px solid #0c0c0c;
+    border-radius:8px;
+    background-color:#f6f5fa;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+    text-align:center;
+    opacity:0; transform:translateY(100px);
+    animation:slideUp 0.8s ease-out forwards;
+  }
+  .signup-container form{display:flex; justify-content:space-between; gap:4%;}
+  .signup-container form button[type="submit"]{
+    padding:25px;
+    background-color:#02027c;
+    color:#f7f7fc;
+    border:none; cursor:pointer;
+    width:48%;
+    border-radius:10px;
+    text-align:center; font-size:16px;
+  }
+
+  footer{
+    height:var(--footer-h);
+    display:flex; align-items:center; justify-content:center;
+    border-top:1px solid #e6e6e6;
+    background:#fff;
+    color:#666; font-size:14px;
+  }
+
+  @keyframes slideUp{to{opacity:1; transform:translateY(0)}}
+</style>
 </head>
 <body>
+  <header>
+    <img class="logo" src="{% static 'logo.webp' %}" alt="Logo" />
+  </header>
+
+  <main>
     <div class="background-container">
-        <img class="logo" src="{% static 'logo.webp' %}" alt="Logo"> <!-- Add class here -->
-        <div class="signup-container">
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" name="superuser"><b>superuser</b></button>
-                <button type="submit" name="user"><b>USER</b></button>
-            </form>
-        </div>
+      <div class="signup-container">
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" name="admin"><b>ADMIN</b></button>
+          <button type="submit" name="user"><b>USER</b></button>
+        </form>
+      </div>
     </div>
+  </main>
+
+  <footer>
+    © {{ now|date:"Y" }} RENEWABLE ENERGY SYSTEMS LIMITED
+  </footer>
 </body>
 </html>

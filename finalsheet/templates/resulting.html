@@ -85,8 +85,10 @@
     </div>
     <div class="top-right">
         <p><b>Date: </b> {{ date }}</p>
-        <p><b>Battery code/Enquiry number: </b> {{ btycode }}</p>
-        <p><b>Battery Name/Project Name: </b> {{ btyname }}</p>
+        <p><b>Battery code: </b> {{ bty1code}}</p>
+        <p><b>Enquiry number: </b> {{ btycode }}</p>
+        <p><b>Battery Name: </b> {{ btyname }}</p>
+        <p><b>Project Name: </b> {{ bty1name }}</p>
     </div>
     <h1><b>Cost Sheet</b></h1>
     <table border="1" cellspacing="0">
@@ -925,7 +927,7 @@
             </tr>
             <tr>
                 <td>a</td>
-                <td>Lisi</td>
+                <td>LiSi</td>
                 <td>85</td>
                 <td></td>
                 <td></td>
@@ -957,7 +959,7 @@
             </tr>
             <tr>
                 <td>c</td>
-                <td>Licl</td>
+                <td>LiCl</td>
                 <td>45</td>
                 <td></td>
                 <td></td>
@@ -1010,7 +1012,7 @@
             </tr>
             <tr>
                 <td>a</td>
-                <td>Fes2</td>
+                <td>FeS2</td>
                 <td>73.5</td>
                 <td></td>
                 <td></td>
@@ -1058,7 +1060,7 @@
             </tr>
             <tr>
                 <td>d</td>
-                <td>Licl</td>
+                <td>LiCl</td>
                 <td>45</td>
                 <td></td>
                 <td></td>
@@ -1127,7 +1129,7 @@
             </tr>
             <tr>
                 <td>b</td>
-                <td>Licl</td>
+                <td>LiCl</td>
                 <td>45</td>
                 <td></td>
                 <td></td>
@@ -1195,7 +1197,7 @@
             </tr>
             <tr>
                 <td>b</td>
-                <td>Kclo4</td>
+                <td>KClO4</td>
                 <td>13</td>
                 <td></td>
                 <td></td>
@@ -1223,31 +1225,38 @@
             <table class="table-2" border="1" cellspacing="0">
                 <tr>
                     <th style="height: 40px; font-size: 35px;">Phases</th>
+                    <th style="height: 40px; font-size: 35px;">D&D Quantity</th>
                     <th style="height: 40px; font-size: 35px;">Total Value</th>
                 </tr>
                 
                 <tr>
                     <td>Phase-1</td>
+                    <td>15</td>
                     <td>{{ p1 }}</td>
                 </tr>
                 <tr>
                     <td>Phase-2</td>
+                    <td>12</td>
                     <td>{{ p2 }}</td>
                 </tr>
                 <tr>
                     <td>Phase-3</td>
+                    <td>10</td>
                     <td>{{ p3 }}</td>
                 </tr>
                 <tr>
                     <td>Phase-5</td>
+                    <td>10</td>
                     <td>{{ p5 }}</td>
                 </tr>
                 <tr>
                     <td>Phase-8</td>
+                    <td>15</td>
                     <td>{{ p8 }}</td>
                 </tr>
                 <tr>
                     <td><b>Total phase cost</b></td>
+                    <td></td>
                     <td><b>{{ total_p }}</b></td>
                 </tr>
             </table>

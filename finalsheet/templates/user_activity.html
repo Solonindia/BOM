@@ -47,7 +47,12 @@
             <th>User</th>
             <th>Date</th>
             <th>Created Time</th> <!-- Updated column header -->
-            <th>Battery Code/Enquiry Number</th>
+            <th>Battery Code</th>
+            <th>Enquiry Number</th>
+            <th>Battery Name</th>
+            <th>Project Name</th>
+
+             <th>Version</th> 
             <th>BOM</th>
         </tr>
         {% for activity in activities %}
@@ -66,8 +71,29 @@
                 {{ activity.timestamp|date:"H:i:s" }}
             </td>
             <td>
-                {{ activity.enquiry_number|default:" " }}  <!-- ✅ Show the Enquiry Number -->
+{{ activity.enquiry_number1|default:"Not Mandatory" }}
             </td>
+            <td>
+                {{ activity.enquiry_number|default:"Not Mandatory" }}  <!-- ✅ Show the Enquiry Number -->
+            </td>
+            <td>
+{{ activity.enquiry_number2|default:"Not Mandatory" }}
+            </td>
+            <td>
+{{ activity.enquiry_number3|default:"Not Mandatory" }}                
+            </td>
+
+
+
+<td>
+        {% if activity.enquiry_number %}
+            {{ activity.version }}
+        {% else %}
+            -
+        {% endif %}
+    </td>
+
+
             <td>
                 {% if activity.file_downloaded %}
                     <a href="{% url 'view_downloaded_pdf' activity.id %}">Download</a>
